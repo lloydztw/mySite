@@ -49,11 +49,12 @@ function initYoutubeApi(targetDivID) {
     myNasaSpaceVideoIdx = 0;
     myNasaSpaceVideoTotal = 0;
     for (var key in myAvailableVideos) {
-        if (myAvailableVideos.hasOwnProperty(key)) {  
-            if (key.startsWith('太空'))
-                myNasaSpaceVideoTotal += 1;
-        }
+        if (key.search('太空')==0)
+            myNasaSpaceVideoTotal += 1;
     }
+    if (myNasaSpaceVideoTotal > 1) {
+        myNasaSpaceVideoIdx = Math.floor(Math.random() * myNasaSpaceVideoTotal);
+    }    
 
     var tag = document.createElement('script');    
     tag.src = "https://www.youtube.com/iframe_api";
