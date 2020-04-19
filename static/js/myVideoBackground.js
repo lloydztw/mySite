@@ -63,7 +63,7 @@ function initYoutubeApi(targetDivID) {
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }
     catch(e) {
-        alert("你被厲害國的牆擋住去路了. 無法瀏覽動態影音!");
+        alert("你被厲害國的'牆'擋住去路了. 無法瀏覽動態影音!");
     }
 }
 
@@ -187,6 +187,7 @@ function changeYoutubeVideo(viedioID) {
         }    
     }
     catch(e) {
+        alert("你被厲害國的'牆'擋住去路了. 無法瀏覽動態影音!");
         stopYoutubeVideo();
         showLocalVideo();
     }
@@ -196,7 +197,13 @@ function changeYoutubeVideo(viedioID) {
 
 function stopYoutubeVideo() {
   hideVideoIframe();
-  myPlayer.stopVideo();
+
+  try {
+    myPlayer.stopVideo();
+  }
+  catch(e) {
+  }
+
   showLocalVideo();
 }
 
