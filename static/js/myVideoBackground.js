@@ -56,10 +56,15 @@ function initYoutubeApi(targetDivID) {
         myNasaSpaceVideoIdx = Math.floor(Math.random() * myNasaSpaceVideoTotal);
     }    
 
-    var tag = document.createElement('script');    
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    try {
+        var tag = document.createElement('script');    
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    }
+    catch(e) {
+        alert("你被厲害國的牆擋住去路了. 無法瀏覽動態影音!");
+    }
 }
 
 
@@ -337,8 +342,9 @@ function displayClientInfo(targetDivID) {
   }
   catch (ex) 
   {
-      str = ex.message;
-      alert(str);
+      str = ex.toString();
+      //alert(str);
+      alert("你被厲害國的牆擋住去路了. 取得 ip 訊息! " + str);
       return "Error";
   }            
 }
