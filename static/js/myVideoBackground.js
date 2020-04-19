@@ -18,7 +18,7 @@ var myNasaSpaceVideoTotal = 1;
 var myVideoID = myAvailableVideos['太空'] + 'xxx';
 var myPlayerDivID = 'myTitleVideoPlayer';
 var myMute = true;
-
+var theCnErrorMsg = "你被厲害國的'牆'擋住去路了.\n\r 無法瀏覽動態影音!";
 
 // local video members
 var myLocalVideoDivID = '';
@@ -63,7 +63,7 @@ function initYoutubeApi(targetDivID) {
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
     }
     catch(e) {
-        alert("你被厲害國的'牆'擋住去路了. 無法瀏覽動態影音!");
+        alert(theCnErrorMsg);
     }
 }
 
@@ -116,9 +116,14 @@ function onYouTubeIframeAPIReady() {
 
 // 2.2 The API will call this function when the video player is ready.
 function onPlayerReady(event) {
-    event.target.playVideo();
-    // 在此調用 unMute() 會造成瀏覽器無法自動播放!!!
-    // event.target.unMute();
+    try {
+        event.target.playVideo();
+        // 在此調用 unMute() 會造成瀏覽器無法自動播放!!!
+        // event.target.unMute();
+    }
+    catch(e) {
+        alert(theCnErrorMsg);
+    }
 }
 
 
@@ -127,23 +132,28 @@ function onPlayerReady(event) {
 //    The function indicates that when playing a video (state=1),
 //    the player should play for six seconds and then stop.
 // var done = false;
-function onPlayerStateChange(event) {
-    
-    //> 延遲顯示 youtube player <div> 區塊, 防止閃爍.
-    if (event.data == YT.PlayerState.PLAYING) {
-        console.log('onPlayerStateChange (PLAYING) ' + event.data);
-        
-        if (!isVideoIframeVisible()) {
-            showVideoIframe();
-            //event.target.unMute();
-        }                
-    }
+function onPlayerStateChange(event) {    
+    try 
+    {
+        //> 延遲顯示 youtube player <div> 區塊, 防止閃爍.
+        if (event.data == YT.PlayerState.PLAYING) {
+            console.log('onPlayerStateChange (PLAYING) ' + event.data);
+            
+            if (!isVideoIframeVisible()) {
+                showVideoIframe();
+                //event.target.unMute();
+            }                
+        }
 
-    //> setLoop 沒有用, 直接在 onPlayerStateChange 重啟撥放
-    if (event.data == YT.PlayerState.ENDED) {
-        console.log('onPlayerStateChange (END)' + event.data);
-        event.target.seekTo(0);
-        event.target.playVideo();
+        //> setLoop 沒有用, 直接在 onPlayerStateChange 重啟撥放
+        if (event.data == YT.PlayerState.ENDED) {
+            console.log('onPlayerStateChange (END)' + event.data);
+            event.target.seekTo(0);
+            event.target.playVideo();
+        }
+    }
+    catch(e) {
+        alert(theCnErrorMsg);
     }
 }
 
@@ -151,14 +161,15 @@ function onPlayerStateChange(event) {
 
 // 2.4 Handling The API calls failure.
 function onPlayerError(event) {
-    event.target.stopVideo();
-    hideVideoIframe();
+    //> event.target.stopVideo();
+    //> hideVideoIframe();
     
     var str = "<h4> 無法連線 到 Youtube </h4>"
     console.log(str);
     //alert(str);		
 
-    showLocalVideo();
+    //> showLocalVideo();
+    stopYoutubeVideo();
 }
 
 
@@ -351,7 +362,8 @@ function displayClientInfo(targetDivID) {
   {
       str = ex.toString();
       //alert(str);
-      alert("你被厲害國的牆擋住去路了. 取得 ip 訊息! " + str);
+      //alert("你被厲害國的牆擋住去路了. 取得 ip 訊息! " + str);
+      alert(theCnErrorMsg + "\n\r" + str);
       return "Error";
   }            
 }
