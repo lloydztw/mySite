@@ -34,7 +34,6 @@
             color: #ffffff;
 
             /* text-align: center; */
-
             line-height: normal;
             letter-spacing: normal;
             pointer-events: auto;
@@ -44,6 +43,7 @@
             border: 0;
             outline: 0;
             vertical-align: baseline;
+            letter-spacing:0.1em;
             background: 0 0;            
         }
 
@@ -52,7 +52,7 @@
             /* text-align:center; */
             font-style:italic;
             font-weight:bold;
-            letter-spacing:0.19em;
+            letter-spacing:0.1em;
             color:#FE6060;
         }
         
@@ -87,7 +87,6 @@
             height: 100%;
             pointer-events: none;
         }		
-
 
         .video-local {
             position: absolute;
@@ -180,18 +179,22 @@
 
 <body>	
 
-    <div class="video-background">         
-        <div class="video-foreground" id ="myVideoForeground">
-            <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-            <div id="myTitleVideoPlayer"></div>            
-        </div>               
+    <div class="video-background">     
+        <!-- 預設圖案 -->
+        <div class="video-local" style = "z-index: -99;">
+            <img src='/mysite/img/background_gears.webp' height="100%" width="100%">
+        </div>    
         <div id ="myLocalVideoDiv">            
-            <video autoplay muted loop class="video-local">
+            <video autoplay muted loop class="video-local" style="z-index: -98;">
                 <source src='/mysite/static/video/machine.mp4' type="video/mp4">
             </video>            
             <!-- 讓 mp4 畫面更顯 黃銅色 -->
-            <div class="video-local-tone-overlay"></div>
+            <div class="video-local-tone-overlay" style="z-index: -97;"></div>
         </div>        
+        <div class="video-foreground" id ="myVideoForeground" style="z-index: -90;">
+            <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+            <div id="myTitleVideoPlayer"></div>            
+        </div>               
     </div>
 
     <div class="myTitle" id = "myTitleDiv">
