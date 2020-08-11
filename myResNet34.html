@@ -3,178 +3,98 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>LeTian Space</title>
+    <title>LeTian Resnet34</title>
     
-    
-
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
 
     <link rel="shortcut icon" href="/mysite/static/favicon.ico">
     <link rel="apple-touch-icon" href="/mysite/static/apple-touch-icon.png">
 
-    
-
     <style>		
-        body {
-            font-size: 10px;
-            font-family: Arial,Helvetica,sans-serif;
+        html, body, .lt-grid-container { 
+            height: 100%; 
+            margin: 0; 
+            background-color: black;
         }
 
-        .myTitle {
-            position: absolute;
-            left: 0;
-            top: 35%;
+        .lt-grid-container {
+            display: grid;
+            color: darkblue;
+            background-color: black;
+            text-align: center;
             width: 100%;
-            text-align: center;
-            font-size: 16px;
-        }		
-
-        .font_Title {
-            font: normal normal normal 32px/1.4em dinneuzeitgroteskltw01-_812426,sans-serif;
-            color: #6060fe;
-
-            /* text-align: center; */
-            line-height: normal;
-            letter-spacing: normal;
-            pointer-events: auto;
-
-            margin: 0;
-            padding: 0;
-            border: 0;
-            outline: 0;
-            vertical-align: baseline;
-            letter-spacing:0.1em;
-            background: 0 0;            
+            gap: 2px 2px;
+            grid-template-columns: [c1] 100px [c2] 1fr [c3] 100px [c4];
+            grid-template-rows: [r1] 100% [r2];
+            align-items: center;
         }
 
-        .font_EZ {
-            font: normal normal normal 21px/1.2em futura-lt-w01-light, sans-serif;
-            /* text-align:center; */
-            font-style:italic;
-            font-weight:bold;
-            letter-spacing:0.1em;
-            color:#6060FE;
-        }
-        
-        .font_Info {
-            position: absolute;
-            left: 2%;
-            top: 70%;			
-            text-align:left;
-            /*
-            font: normal normal normal 16px/1.2em futura-lt-w01-light, sans-serif;
-            font-style:italic;
-            font-weight:bold;
-            letter-spacing:0.19em;
-            */
-            color:#F0F0F0;
+        .lt-g-banner {
+            grid-area: 1 / 1 / 2 / 4;
+            align-self: stretch;
+            background-image: url("https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/1.jpg/david3.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
 
-        .video-background {
-            position: fixed;
-            background: #000;
-            top: 0; right: 0; bottom: 0; left: 0;
-            z-index: -90;
+        .lt-g-title {
+            /* <row-start> / <column-start> / <row-end> / <column-end> */
+            grid-area: 1 / 2 / 2 / 3;
+            font-size: 50px;
+            text-align: right;
         }
 
-        .video-foreground,
-        .video-background iframe {
-            position: absolute;
-            background: #000;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }		
-
-    
-        .layout_pictures {
-            position: absolute;
-            top: 15%;	
-            left: 10%;
-            width: 80%;		
-            text-align: center;
-        }
-
-        .layout_buttons {
-            position: absolute;
-            left: 0;
-            bottom: 5%;	
-            width: 100%;		
-            text-align: center;
-        }
-
-        .button {
-            /* background-color: #4CAF50; */
-            border-radius: 8px;
-            border: none;
-            color: white;
-            padding: 12px 30px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            transition-duration: 0.4s;
-            cursor: pointer;
-        }
-
-        .buttonBlue {
-            background-color: rgba(0,0,0,0.12); 
-            color: #508CBA; 
-            border: 2px solid #008CBA;
-            font-weight:bold;
-        }
-
-        .buttonBlue:hover {
-            background-color: #008CBA;
+        .lt-g-subtitle {
+            text-align: left;
+            font-size: 22px;
             color: white;
         }
 
+        table.samples {
+            position: relative;
+            table-layout: fixed;
+            width: 100%;  
+            height: 300px;
+            text-align: center;
+            background-color: white;
+        }
+        th.epoch {
+            /* position: relative; */
+            /* font-family: 'Lucida Sans'; */
+            font-size: 18px;
+            text-align: left;
+            height: 50px;
+            padding: 20px;
+        }
+        tr:nth-child(odd) {background-color: #f2f2f2;}
     </style>       
-
-    <script src="/mysite/static/js/myVideoBackground.js" type="text/javascript"></script>
 </head>
 
 
 <body>	
-
-    <div class = "layout_pictures">
-        <div class = "font_Title"><br>Resnet34 Machine Learning</div>
-        <div></div>
-        <div><img src="https://github.com/lloydztw/mysite/blob/master/static/img/1.jpg" /></div>
-        <div><img src="https://github.com/lloydztw/mysite/blob/master/static/img/2.jpg" /></div>
-        <div><img src="https://github.com/lloydztw/mysite/blob/master/static/img/3.jpg" /></div>
-        <div><img src="https://github.com/lloydztw/mysite/blob/master/static/img/49.jpg" /></div>
+    <div class="lt-grid-container">
+        <div class="lt-g-banner">hello</div>
+        <div class="lt-g-title">        
+            <font color="#bada55">LE</font><font color="#5cbce0">TIAN</font> <font color="#ffffff">Machine Learning</font>
+            <br>
+            <font size="6" color="#7f7fAf">EzNet (m2x4) 測試結果</font>
+            <br><br><br>
+        </div>
     </div>
-   
-    <div class = "layout_buttons">
-        <button class="button buttonBlue" id="btnHome">回首頁</button> &nbsp;
-    </div>    
-       
-    <script>
-        $(document).ready(function() {
-            console.log("document.onReady");
-            //hideVideoIframe();
-        });
-
-        function changeTitlePosition(topStr) {
-            //document.getElementById("myTitleDiv").style.top = topStr;
-        }
-        document.getElementById("btnHome").addEventListener("click", function(){            
-            //hideLocalVideo();
-            //changeYoutubeVideo('太空');
-            //changeTitlePosition('15%');
-            //changeTitlePosition('3%');
-        });
-
-        // hideVideoIframe();
-        // initLocalVideo("myLocalVideoDiv");
-        // initYoutubeApi("myTitleVideoPlayer");
-    </script>
-
+    <div class="lt-g-subtitle">
+        <br><br><br>
+        <h1>Training Samples</h1>
+    </div>
+    <table class="samples">
+        <tr><th class="epoch">Epoch 1 次</th></tr>
+        <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/1.jpg" /></td></tr>
+        <tr><th class="epoch">Epoch 2 次</th></tr>
+        <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/2.jpg" /></td></tr>                
+        <!-- <tr><th class="epoch">Epoch 3</th></tr>
+        <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/3.jpg" />pic3</td></tr> -->
+        <tr><th class="epoch">Epoch 49 次</th></tr>
+        <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/49.jpg" /></td></tr>
+    </table>
 </body>
-
-
 </html> 
