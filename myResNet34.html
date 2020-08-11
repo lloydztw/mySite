@@ -49,7 +49,7 @@
             text-align: right;
         }
 
-        .lt-g-samples-title {
+        .lt-samples-title {
             padding: 150px 20px;
             height: 15px;
             /* border: 3px solid green; */
@@ -58,10 +58,18 @@
             color: white;            
         }
 
-        table.samples {
+        /* .lt-samples-img {
+            display:block; 
+            width: 100%;
+            height: auto;            
+        } */
+
+        table.lt-samples {
             position: relative;
             table-layout: fixed;
-            width: 100%;  
+            margin-left: 50px;
+            margin-right: 50px;
+            width: 1fr;
             height: 300px;
             text-align: center;
             background-color: white;
@@ -73,8 +81,50 @@
             height: 20px;
             font-size: 18px;
             text-align: left;
+            background-color: #e2e2e2;
         }
-        tr:nth-child(odd) {background-color: #e2e2e2;}
+        /* tr:nth-child(odd) {background-color: #e2e2e2;} */
+
+        .lt-ref-section {
+            padding: 50px 20px;
+            height: 500px;
+            /* border: 3px solid green; */
+            text-align: left;
+            font-size: 22px;
+            color: white;
+            /* background-color: #303030; */
+        }
+
+        table.lt-ref {
+            position: relative;
+            table-layout: fixed;
+            /* margin-left: 50px;
+            margin-right: 50px; */
+            padding-left: 30px;
+            width: 1fr;
+            height: 100px;
+            text-align: left;
+        }        
+        a:link {
+            color: cyan;
+            background-color: transparent;
+            text-decoration: none;
+        }
+            a:visited {
+            color: white;
+            background-color: transparent;
+            text-decoration: none;
+        }
+        a:hover {
+            color: pink;
+            background-color: transparent;
+            text-decoration: underline;
+        }
+        a:active {
+            color: yellow;
+            background-color: transparent;
+            text-decoration: underline;
+        }        
     </style>       
 </head>
 
@@ -89,12 +139,13 @@
             <br><br><br>
         </div>
     </div>
-    <div class="lt-g-samples-title">
+    <div class="lt-samples-title">
         <!-- <br><br><br> -->
         <h1>Training Samples</h1>
         <!-- <br> -->
     </div>
-    <table class="samples">
+    <div  style="background-color: #303030;">
+    <table class="lt-samples">
         <tr><th class="epoch">Epoch 1 次</th></tr>
         <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/1.jpg" /></td></tr>
         <tr><th class="epoch">Epoch 2 次</th></tr>
@@ -106,5 +157,20 @@
         <tr><th class="epoch">Loss, MAE, and MSE</th></tr>
         <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/loss.jpg" /></td></tr>
     </table>
+    </div>
+    <div class="lt-ref-section">
+        <h1>References:</h1>      
+        <table class="lt-ref">
+            <tr><td><a href="https://arxiv.org/abs/1802.10062">
+            [1] CSRNet: Dilated Convolutional Neural Networks for Understanding the Highly Congested Scenes
+            </a></td></tr>
+            <tr><td><a href="https://en.wikipedia.org/wiki/Residual_neural_network">
+            [2] Residual neural network
+            </a></td></tr>
+            <tr><td><a href="https://en.wikipedia.org/wiki/Convolutional_neural_network">
+            [3] Convolutional neural network
+            </a></td></tr>
+        </table>        
+    </div>      
 </body>
 </html> 
