@@ -11,10 +11,13 @@
     <link rel="apple-touch-icon" href="/mysite/static/apple-touch-icon.png">
 
     <style>		
+        @import url(https://fonts.googleapis.com/css?family=Roboto);
+
         html, body, .lt-grid-container { 
             height: 100%; 
             margin: 0; 
             background-color: black;
+            font-family: "Roboto", "Microsoft Yahei", sans-serif;
         }
 
         .lt-grid-container {
@@ -38,17 +41,21 @@
             background-size: cover;
         }
 
-        .lt-g-title {
+        .lt-g-banner-title {
             /* <row-start> / <column-start> / <row-end> / <column-end> */
             grid-area: 1 / 2 / 2 / 3;
+            font-weight: 700;
             font-size: 50px;
             text-align: right;
         }
 
-        .lt-g-subtitle {
+        .lt-g-samples-title {
+            padding: 150px 20px;
+            height: 15px;
+            /* border: 3px solid green; */
             text-align: left;
             font-size: 22px;
-            color: white;
+            color: white;            
         }
 
         table.samples {
@@ -62,12 +69,12 @@
         th.epoch {
             /* position: relative; */
             /* font-family: 'Lucida Sans'; */
+            padding: 30px;
+            height: 20px;
             font-size: 18px;
             text-align: left;
-            height: 50px;
-            padding: 20px;
         }
-        tr:nth-child(odd) {background-color: #f2f2f2;}
+        tr:nth-child(odd) {background-color: #e2e2e2;}
     </style>       
 </head>
 
@@ -75,16 +82,17 @@
 <body>	
     <div class="lt-grid-container">
         <div class="lt-g-banner">hello</div>
-        <div class="lt-g-title">        
+        <div class="lt-g-banner-title">        
             <font color="#bada55">LE</font><font color="#5cbce0">TIAN</font> <font color="#ffffff">Machine Learning</font>
             <br>
             <font size="6" color="#7f7fAf">EzNet (m2x4) 測試結果</font>
             <br><br><br>
         </div>
     </div>
-    <div class="lt-g-subtitle">
-        <br><br><br>
+    <div class="lt-g-samples-title">
+        <!-- <br><br><br> -->
         <h1>Training Samples</h1>
+        <!-- <br> -->
     </div>
     <table class="samples">
         <tr><th class="epoch">Epoch 1 次</th></tr>
@@ -95,6 +103,8 @@
         <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/3.jpg" />pic3</td></tr> -->
         <tr><th class="epoch">Epoch 49 次</th></tr>
         <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/49.jpg" /></td></tr>
+        <tr><th class="epoch">Loss, MAE, and MSE</th></tr>
+        <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/loss.jpg" /></td></tr>
     </table>
 </body>
 </html> 
