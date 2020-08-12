@@ -49,6 +49,8 @@
             text-align: right;
         }
 
+
+
         .lt-samples-title {
             padding: 150px 20px;
             height: 15px;
@@ -57,12 +59,6 @@
             font-size: 22px;
             color: white;            
         }
-
-        /* .lt-samples-img {
-            display:block; 
-            width: 100%;
-            height: auto;            
-        } */
 
         table.lt-samples {
             position: relative;
@@ -87,12 +83,12 @@
 
         .lt-ref-section {
             padding: 50px 20px;
-            height: 500px;
+            height: 300px;
             /* border: 3px solid green; */
             text-align: left;
             font-size: 22px;
             color: white;
-            /* background-color: #303030; */
+            background-color: #202020;
         }
 
         table.lt-ref {
@@ -124,14 +120,77 @@
             color: yellow;
             background-color: transparent;
             text-decoration: underline;
-        }        
+        }   
+
+
+        #hamburger {
+            position: absolute;
+            display: inline-block;
+            margin-left: 88%;
+            margin-top: 560px;
+            border-radius: 100px;
+            border: 0;
+            color: #fff !important;
+            background: #4c64e9 !important;
+            box-sizing: border-box;
+            transition: all 0.2s ease-in-out;
+            width: 40px;
+            height: 40px;
+            vertical-align: top;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s ease-in all;
+        }
+        #hamburger span {
+            position: absolute;
+            display: inline-block;
+            /* top: 19px; */
+            left: 13px;
+            width: 14px;
+            height: 3px;
+            background-color: #fff;
+            content: "";
+            -webkit-transition: background-color 0.2s ease-out;
+            -o-transition: background-color 0.2s ease-out;
+            transition: background-color 0.2s ease-out;
+        }
+        #hamburger span:nth-child(1) {
+            top: 12px;
+        }
+        #hamburger span:nth-child(2) {
+            top: 19px;
+        }
+        #hamburger span:nth-child(3) {
+            top: 27px;
+        }
+        
+        #hamburger:hover span:nth-child(1) {
+            top: 14px;
+            transform: rotate(135deg);
+        }
+        #hamburger:hover span:nth-child(2) {
+            opacity: 0;
+            left: -60px;
+        }
+        #hamburger:hover span:nth-child(3) {
+            /* opacity: 0; */
+            top: 25px;
+            transform: rotate(-135deg);
+        }      
+        
     </style>       
 </head>
 
 
 <body>	
+        <div id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
     <div class="lt-grid-container">
-        <div class="lt-g-banner">hello</div>
+        <div class="lt-g-banner"></div>
         <div class="lt-g-banner-title">        
             <font color="#bada55">LE</font><font color="#5cbce0">TIAN</font> <font color="#ffffff">Machine Learning</font>
             <br>
@@ -139,12 +198,12 @@
             <br><br><br>
         </div>
     </div>
+
     <div class="lt-samples-title">
         <!-- <br><br><br> -->
         <h1>Training Samples</h1>
         <!-- <br> -->
     </div>
-    <div  style="background-color: #303030;">
     <table class="lt-samples">
         <tr><th class="epoch">Epoch 1 次</th></tr>
         <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/1.jpg" /></td></tr>
@@ -157,7 +216,7 @@
         <tr><th class="epoch">Loss, MAE, and MSE</th></tr>
         <tr><td><img src="https://raw.githubusercontent.com/lloydztw/mysite/master/static/img/loss.jpg" /></td></tr>
     </table>
-    </div>
+
     <div class="lt-ref-section">
         <h1>References:</h1>      
         <table class="lt-ref">
