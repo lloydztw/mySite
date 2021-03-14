@@ -5,15 +5,12 @@
     <meta charset="UTF-8">
     <title>LeTian Space</title>
     
-    
-
     <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="shortcut icon" href="/mysite/static/favicon.ico">
     <link rel="apple-touch-icon" href="/mysite/static/apple-touch-icon.png">
 
     
-
     <style>		
         @import url(https://fonts.googleapis.com/css?family=Roboto);
 
@@ -227,11 +224,7 @@
         $(document).ready(function() {
             console.log("document.onReady");
             hideVideoIframe();
-            var myVar = setInterval(myTimer, 3000);
-                function myTimer() {
-                var d = new Date();
-                document.getElementById("demo").innerHTML = d.toLocaleTimeString();
-            }
+            updateMuteButton();
         });
 
         function changeTitlePosition(topStr) {
@@ -274,14 +267,11 @@
             changeTitlePosition('3%');
         });
         document.getElementById("btnMute").addEventListener("click", function(){
-            if (isVideoMuted()) {
+            if (isVideoMuted())
                 unMuteVideo();
-                document.getElementById("btnMute").innerHTML = "聲音 v";
-            }
-            else {
+            else
                 muteVideo();
-                document.getElementById("btnMute").innerHTML = "聲音 x";
-            }
+            //updateMuteButton();
         });
 
         hideVideoIframe();

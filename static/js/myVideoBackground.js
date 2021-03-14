@@ -4,10 +4,10 @@ var myAvailableVideos = {
     '枋山' : '8JQG9bCZZjs',
     '台東' : 'FuYPQOzAe3A',
     '挪威' : 'ftlvreFtA2A',
-    '太空-0' : 'AUprhMBRZ7Q',   // NASA Moon Phases 
-    '太空-1' : 'W0LHTWG-UmQ',   // NASA default Earth 
-    '太空-2' : 'cFC71rFejvo',   // NASA Moon
-    //'太空-3' : '8HW9gYGMiwo',   // NASA Earch 2 (no sound)
+    '太空-0' : 'W0LHTWG-UmQ',   // NASA default Earth 
+    '太空-1' : 'AUprhMBRZ7Q',   // NASA Moon Phases 
+    '太空-2' : '8HW9gYGMiwo',   // NASA Earch 2 (no sound)
+    '太空-3' : 'cFC71rFejvo',   // NASA Moon
     //'太空-x' : '8u7sM8SKrz0',   // 失效
 };
 
@@ -37,7 +37,12 @@ function hideLocalVideo() {
     document.getElementById(myLocalVideoDivID).innerHTML = '';
 }
 
-
+function updateMuteButton() {
+    if (isVideoMuted())
+        document.getElementById("btnMute").innerHTML = '聲音 <i class="fa fa-volume-off"></i>';
+    else
+        document.getElementById("btnMute").innerHTML = '<strong>聲音 <i class="fa fa-volume-up"></i></strong>';
+}
 
 // 2.0 This function creates an <iframe> (and YouTube player)
 //    after the API code downloads.
@@ -48,13 +53,15 @@ function initYoutubeApi(targetDivID) {
 
     myNasaSpaceVideoIdx = 0;
     myNasaSpaceVideoTotal = 0;
+
     for (var key in myAvailableVideos) {
         if (key.search('太空')==0)
             myNasaSpaceVideoTotal += 1;
     }
     if (myNasaSpaceVideoTotal > 1) {
         myNasaSpaceVideoIdx = Math.floor(Math.random() * myNasaSpaceVideoTotal);
-    }    
+        myNasaSpaceVideoIdx = 1;
+    }
 
     try {
         var tag = document.createElement('script');    
@@ -109,8 +116,8 @@ function onYouTubeIframeAPIReady() {
     //> player.setLoop(true);  
     
     hideLocalVideo();
-
-    //> myMute = true;
+    myMute = false;
+    updateMuteButton();
 }
 
 
@@ -180,12 +187,11 @@ function changeYoutubeVideo(viedioID) {
     try {
         hideLocalVideo();
 
-        if (viedioID == '太空') {
+        if (viedioID.startsWith('太空')) {
             viedioID = viedioID + '-' + myNasaSpaceVideoIdx.toString();
-            console.log('videoID = ' + videoID);
-            console.log('mute = ' + myMute.toString());
             if (myNasaSpaceVideoTotal > 0)
                 myNasaSpaceVideoIdx = (myNasaSpaceVideoIdx + 1) % myNasaSpaceVideoTotal;
+            document.getElementById('btnNasa').innerHTML = viedioID.replace('-',' ');
         }
 
         var videoName = usingYoutubeVideoID ? viedioID : myAvailableVideos[viedioID];
@@ -229,21 +235,21 @@ function isVideoMuted() {
 
 function muteVideo() {
     myMute = true;
+    updateMuteButton();
     try {
-        myPlayer.mute();
+        myPlayer.mute();        
     }
     catch(e) {
-
     }
 }
 
 function unMuteVideo() {
     myMute = false;
+    updateMuteButton();
     try {
         myPlayer.unMute();
     }
     catch(e) {
-
     }
 }
 
