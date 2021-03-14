@@ -227,6 +227,11 @@
         $(document).ready(function() {
             console.log("document.onReady");
             hideVideoIframe();
+            var myVar = setInterval(myTimer, 3000);
+                function myTimer() {
+                var d = new Date();
+                document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+            }
         });
 
         function changeTitlePosition(topStr) {
@@ -244,7 +249,8 @@
             // stopYoutubeVideo();
             // //showLocalVideo();
             // changeTitlePosition('35%');
-            window.location.replace("https://lloydztw.github.io/mysite/myResNet34.html");
+            // window.location.replace("https://lloydztw.github.io/mysite/myResNet34.html");
+            document.location.href = "myResNet34.html"
         }); 
         document.getElementById("btnKenting").addEventListener("click", function(){
             //hideLocalVideo();

@@ -4,10 +4,10 @@ var myAvailableVideos = {
     '枋山' : '8JQG9bCZZjs',
     '台東' : 'FuYPQOzAe3A',
     '挪威' : 'ftlvreFtA2A',
-    '太空-0' : 'W0LHTWG-UmQ',   // NASA default Earth 
-    '太空-1' : 'AUprhMBRZ7Q',   // NASA Moon Phases 
-    '太空-2' : '8HW9gYGMiwo',   // NASA Earch 2 (no sound)
-    '太空-3' : 'cFC71rFejvo',   // NASA Moon
+    '太空-0' : 'AUprhMBRZ7Q',   // NASA Moon Phases 
+    '太空-1' : 'W0LHTWG-UmQ',   // NASA default Earth 
+    '太空-2' : 'cFC71rFejvo',   // NASA Moon
+    //'太空-3' : '8HW9gYGMiwo',   // NASA Earch 2 (no sound)
     //'太空-x' : '8u7sM8SKrz0',   // 失效
 };
 
@@ -109,7 +109,8 @@ function onYouTubeIframeAPIReady() {
     //> player.setLoop(true);  
     
     hideLocalVideo();
-    myMute = true;
+
+    //> myMute = true;
 }
 
 
@@ -181,6 +182,8 @@ function changeYoutubeVideo(viedioID) {
 
         if (viedioID == '太空') {
             viedioID = viedioID + '-' + myNasaSpaceVideoIdx.toString();
+            console.log('videoID = ' + videoID);
+            console.log('mute = ' + myMute.toString());
             if (myNasaSpaceVideoTotal > 0)
                 myNasaSpaceVideoIdx = (myNasaSpaceVideoIdx + 1) % myNasaSpaceVideoTotal;
         }
