@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>樂天 的 Python Apps</title>
+
+  <meta charset="utf-8">                
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="LeTian Chang">
+  <meta name="description" content="">
+  <!-- Bootstrap 手機/平板/桌機畫面長寬 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 使用 w3.css -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <!-- 使用 awesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- 載入 django static 路徑 -->
+  
+  <!-- Favicon -->
+  <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png">
+  <link rel="manifest" href="../static/favicon/site.webmanifest">
+  <!-- 我的 css -->
+  <link rel="stylesheet" href="../static/css/letian-ocean.css">
+
+  
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  
+
+
+  <!-- Header -->
+  <header class="w3-container w3-black w3-center le-bg-cover" id="myHeader">
+      <h1 class="w3-margin w3-jumbo">
+        <strong>
+        <span style="color:#BADA55;">Le</span><span style="color:#0CC8ED;">Tian</span>
+        <span style="color:#FFFFFF;">Ocean</span>
+        </strong>
+      </h1>
+      <p class="w3-xlarge">我的 Python Apps</p>
+      <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+        onclick="location.href='#mySection1';">
+        Enter
+      </button>
+  </header>
+
+  <!-- mySection1 : using w3-cell -->
+  <div class="w3-container le-bg-cover" id="mySection1">
+      <div class="w3-container" style="padding:10vh 15vh"> 
+        <div class="w3-container w3-cell w3-cell-middle">
+          <a href="#mySection2">
+          <img src="../static/img/workshop/car7.webp" style="height:50vh;" alt="To Section 2">
+          </a>
+        </div>       
+        <div class="w3-container w3-cell w3-cell-middle">
+          <h1>Reinforcement Learning</h1>
+          <h6 class="w3-padding-32">強化學習（簡稱RL）是機器學習中的一個領域，強調如何基於環境而行動，以取得最大化的預期利益。其靈感來源於心理學中的行為主義理論，即有機體如何在環境給予的獎勵或懲罰的刺激下，逐步形成對刺激的預期，產生能獲得最大利益的習慣性行為。這個方法具有普適性，因此在其他許多領域都有研究，例如博弈論、控制論、運籌學、資訊理論、仿真優化、多智能體系統、群體智能、統計學以及遺傳算法。在運籌學和控制理論研究的語境下，強化學習被稱作「近似動態規劃」（approximate dynamic programming，ADP）。在最優控制理論中也有研究這個問題，雖然大部分的研究是關於最優解的存在和特性，並非是學習或者近似方面。在經濟學和博弈論中，強化學習被用來解釋在有限理性的條件下如何出現平衡。</h6>
+          <p class="w3-text-grey">Reinforcement learning (RL) is an area of machine learning concerned with how intelligent agents ought to take actions in an environment in order to maximize the notion of cumulative reward.[1] Reinforcement learning is one of three basic machine learning paradigms, alongside supervised learning and unsupervised learning.</p>
+        </div>
+      </div>
+      <div class="w3-container w3-center">
+        <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+          onclick="location.href='#mySection2';">
+          Next
+        </button>    
+      </div>
+    </div>
+  </div>
+
+  <!-- mySection2 : using w3-cell -->
+  <div class="w3-container le-bg-cover" id="mySection2">
+      <div class="w3-container" style="padding:10vh 15vh">       
+        <div class="w3-container w3-cell w3-cell-middle">
+          <h1>Long short-term memory (LSTM)</h1>
+          <h6 class="w3-padding-32">長短期記憶（英語：Long Short-Term Memory，LSTM）是一種時間循環神經網路（RNN）[1]，論文首次發表於1997年。由於獨特的設計結構，LSTM適合於處理和預測時間序列中間隔和延遲非常長的重要事件。LSTM的表現通常比時間循環神經網路及隱馬爾科夫模型（HMM）更好，比如用在不分段連續手寫辨識上[2]。2009年，用LSTM構建的人工神經網路模型贏得過ICDAR手寫辨識比賽冠軍。LSTM還普遍用於自主語音辨識，2013年運用TIMIT自然演講資料庫達成17.7%錯誤率的紀錄。作為非線性模型，LSTM可作為複雜的非線性單元用於構造更大型深度神經網路。</h6>
+          <p class="w3-text-sand">Long short-term memory (LSTM) is an artificial recurrent neural network (RNN) architecture[1] used in the field of deep learning. Unlike standard feedforward neural networks, LSTM has feedback connections. It can not only process single data points (such as images), but also entire sequences of data (such as speech or video). For example, LSTM is applicable to tasks such as unsegmented, connected handwriting recognition,[2] speech recognition[3][4] and anomaly detection in network traffic or IDSs (intrusion detection systems).</p>
+        </div>
+        <div class="w3-container w3-cell w3-cell-middle">
+          <a href="#mySection4">
+          <img src="../static/img/workshop/car5.webp" style="height:50vh;" alt="To Section 4">
+          </a>
+        </div>       
+      </div>
+      <div class="w3-container w3-center">
+        <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+          onclick="location.href='#mySection4';">
+          Next
+        </button>    
+      </div>
+    </div>
+  </div>
+
+  
+
+  <div class="w3-container le-bg-cover" id="mySection3">
+  </div>
+
+  <div class="w3-container w3-center w3-padding-64 le-bg-cover" id="mySection4">
+    <div class="w3-container">
+    <img src="../static/img/workshop/car8.webp" alt="car8">
+    
+    </div>  
+    <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+      onclick="location.href='#myHeader';">
+      Home
+    </button>
+    <button class="w3-btn w3-round w3-border w3-deep-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+      onclick="location.href='https://lloydztw.github.io/mysite/';">
+      GitHub
+    </button>  
+  </div>
+
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-center w3-indigo">  
+    <div class="w3-xlarge w3-padding-8">    
+      <a href="https://www.facebook.com/letian.chang"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+      <a href="https://www.google.com/"><i class="fa fa-google w3-hover-opacity"></i></a>
+      <a href="mailto:lloydz.tw@gmail.com"><i class="fa far fa-envelope w3-hover-opacity"></i></a>
+      <a href="https://lloydztw.github.io/mysite/"><i class="fa far fa-film w3-hover-opacity"></i></a>
+  </div>
+  <p>Copyright &copy; 2021 Designed by  
+      <a rel="nofollow noopener" href="https://www.facebook.com/letian.chang"> LeTian Chang</a>
+  </p>
+  </footer>
+
+  <script>
+    // Used to toggle the menu on small screens when clicking on the menu button
+    function myFunction() {
+      var x = document.getElementById("navDemo");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else { 
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+  </script>
+
+</body>
+
+</html>

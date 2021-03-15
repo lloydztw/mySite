@@ -1,0 +1,60 @@
+
+/* 動畫捲動 */
+html {
+    scroll-behavior: smooth;
+  }
+
+  /* 本站全頁 */
+  body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif; color: white;}
+  .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+  .fa-anchor,.fa-coffee {font-size:200px}
+
+  /* LETIAN 通用: 讓背景撐開全高(頁面)區域 */
+  .le-bg-cover {
+    /* background-attachment:
+        scroll >>> 讓 background image 隨著 v-scroll 捲動 (相對靜態) (system default) 
+        fixed  >>> 讓 background image 不隨 v-scroll (有視差效果)
+    */
+    /* background-attachment: scroll; */ 
+    background-attachment: fixed;
+    background-repeat: no-repeat;   /* 不重複 */
+    background-size: cover;         /* 保持比例縮放至 owner.container 的大小 */
+    min-height: 100vh;              /* 強制設定為 background-height = 全視窗高 */
+    /* cover 模式 width 自動為 100% x (owner.container.width - padding) */
+    /* width: 100%; */              
+  }
+
+  /* 本站 header 背景圖 */
+  #myHeader {
+    background-image: url("../img/workshop/ss-ocean-blue-white.jpg");
+    background-attachment: fixed;   /* 固定 background image 不隨 v-scroll (有視差效果) */
+    padding-top: 25vh;              /* owner.container 範圍 於 內含物大小之外 再上下擴增 */
+    padding-bottom: 25vh;                                        
+  }
+
+  #mySection1 {
+    background-image: url("../img/workshop/ss-ocean-deep-blue.jpg");
+    background-attachment: fixed;
+  }
+
+  #mySection2 {
+    background-image: url("../img/workshop/ss-brown-blue-rain.jpg");
+    background-attachment: fixed;   /* 讓 background image 不隨 v-scroll (有視差效果) */
+    z-index: 1;
+    background-color: rgba(0,0,0,0.25);
+    background-blend-mode: overlay;
+  }
+
+  #mySection3 {
+    background-image: url("../img/workshop/ss-ocean-light-green.jpg");    
+    background-attachment: fixed;   /* 讓 background image 不隨 v-scroll (有視差效果) */
+    min-height: 0;                  /* 不指定 min-height, 輔以 padding, 可以有細長窗口顯示效果 */
+    padding-top: 25vh;              /* image 可視範圍 於 owner container 內含物大小 上下再擴增 */
+    padding-bottom: 25vh;
+  }  
+  
+  #mySection4 {    
+    background-image: url("../img/workshop/ss-ocean-light-shore.jpg");
+    background-attachment: fixed;   /* 讓 background image 不隨 v-scroll (有視差效果) */
+    min-height: 0;                  /* 不指定 min-height, 輔以 padding, 可以有細長窗口顯示效果 */
+  }  

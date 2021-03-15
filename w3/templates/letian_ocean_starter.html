@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<title>樂天 的 Python Apps</title>
+
+<meta charset="utf-8">                
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="author" content="LeTian Chang">
+<meta name="description" content="">
+<!-- Bootstrap 手機/平板/桌機畫面長寬 -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- 使用 w3.css -->
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+<!-- 使用 awesome icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<!-- 載入 django static 路徑 -->
+{% load static %}
+<!-- Favicon -->
+<link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+<link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+<link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+<link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+<!-- 我的 css -->
+<!-- <link rel="stylesheet" href="{% static 'css/letian-cover-title.css'%}">  -->
+
+<style>
+  /* 動畫捲動 */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* 本站全頁 */
+  body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif; color: white;}
+  .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
+  .fa-anchor,.fa-coffee {font-size:200px}
+
+  /* LETIAN 通用: 讓背景撐開全高(頁面)區域 */
+  .le-bg-cover {
+    background-attachment: scroll;  /* background image 隨著 v-scroll 捲動 (相對靜態) (default) */
+    background-repeat: no-repeat;   /* 不重複 */
+    background-size: cover;         /* 保持比例縮放至 owner.container 的大小 */
+    min-height: 100vh;              /* 強制設定為 background-height = 全視窗高 */
+    /* cover 模式 width 自動為 100% x (owner.container.width - padding) */
+    /* width: 100%; */              
+  }
+
+  /* 本站 header 背景圖 */
+  #myHeader {
+    background-image: url("{% static 'img/workshop/ss-ocean-blue-white.jpg'%}");
+    background-attachment: fixed;   /* 固定 background image 不隨 v-scroll (有視差效果) */
+    padding-top: 25vh;              /* owner.container 範圍 於 內含物大小之外 再上下擴增 */
+    padding-bottom: 25vh;                                        
+  }
+  #mySection1 {
+    background-image: url("{% static 'img/workshop/ss-ocean-deep-blue.jpg'%}");
+    background-attachment: scroll;  /* default */
+  }
+  #mySection2 {
+    background-image: url("{% static 'img/workshop/ss-brown-blue-rain.jpg'%}");
+    background-attachment: fixed;   /* 讓 background image 不隨 v-scroll (有視差效果) */
+    z-index: 1;
+    background-color: rgba(0,0,0,0.25);
+    background-blend-mode: overlay;
+  }
+  #mySection3 {
+    background-image: url("{% static 'img/workshop/ss-ocean-light-green.jpg'%}");    
+    background-attachment: fixed;   /* 讓 background image 不隨 v-scroll (有視差效果) */
+    min-height: 0;                  /* 不指定 min-height, 輔以 padding, 可以有細長窗口顯示效果 */
+    padding-top: 25vh;              /* image 可視範圍 於 owner container 內含物大小 上下再擴增 */
+    padding-bottom: 25vh;
+  }  
+  #mySection4 {    
+    background-image: url("{% static 'img/workshop/ss-ocean-light-shore.jpg'%}");
+    background-attachment: fixed;   /* 讓 background image 不隨 v-scroll (有視差效果) */
+    min-height: 0;                  /* 不指定 min-height, 輔以 padding, 可以有細長窗口顯示效果 */
+  }  
+  
+</style>
+<body>
+
+
+<!-- Navbar -->
+{% if False %}
+<div class="w3-top">
+  <div class="w3-bar w3-indigo w3-card w3-left-align w3-medium">
+    <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-red" href="javascript:void(0);" onclick="myFunction()" title="Toggle Navigation Menu"><i class="fa fa-bars"></i></a>
+    <a href="#myHeader" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
+    <a href="#mySection1" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Section 1</a>
+    <a href="#mySection2" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Section 2</a>
+    <a href="#mySection4" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Section 3</a>
+  </div>
+  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium w3-large">
+    <a href="#myHeader" class="w3-bar-item w3-button w3-padding-large">Home</a>
+    <a href="#mySection1" class="w3-bar-item w3-button w3-padding-large">Section 1</a>
+    <a href="#mySection2" class="w3-bar-item w3-button w3-padding-large">Section 2</a>
+    <a href="#mySection4" class="w3-bar-item w3-button w3-padding-large">Section 3</a>
+  </div>
+</div>
+{% endif %}
+
+
+<!-- Header -->
+<header class="w3-container w3-black w3-center le-bg-cover" id="myHeader">
+    <h1 class="w3-margin w3-jumbo">
+      <strong>
+      <span style="color:#BADA55;">Le</span><span style="color:#0CC8ED;">Tian</span>
+      <span style="color:#FFFFFF;">Ocean</span>
+      </strong>
+    </h1>
+    <p class="w3-xlarge">我的 Python Apps</p>
+    <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+      onclick="location.href='#mySection1';">
+      Enter
+    </button>
+</header>
+
+<!-- mySection1 : using w3-cell -->
+<div class="w3-container le-bg-cover" id="mySection1">
+    <div class="w3-container" style="padding:10vh 15vh"> 
+      <div class="w3-container w3-cell w3-cell-middle">
+        <a href="#mySection2">
+        <img src="{% static 'img/workshop/car7.webp' %}" style="height:50vh;" alt="To Section 2">
+        </a>
+      </div>       
+      <div class="w3-container w3-cell w3-cell-middle">
+        <h1>Reinforcement Learning</h1>
+        <h6 class="w3-padding-32">強化學習（簡稱RL）是機器學習中的一個領域，強調如何基於環境而行動，以取得最大化的預期利益。其靈感來源於心理學中的行為主義理論，即有機體如何在環境給予的獎勵或懲罰的刺激下，逐步形成對刺激的預期，產生能獲得最大利益的習慣性行為。這個方法具有普適性，因此在其他許多領域都有研究，例如博弈論、控制論、運籌學、資訊理論、仿真優化、多智能體系統、群體智能、統計學以及遺傳算法。在運籌學和控制理論研究的語境下，強化學習被稱作「近似動態規劃」（approximate dynamic programming，ADP）。在最優控制理論中也有研究這個問題，雖然大部分的研究是關於最優解的存在和特性，並非是學習或者近似方面。在經濟學和博弈論中，強化學習被用來解釋在有限理性的條件下如何出現平衡。</h6>
+        <p class="w3-text-grey">Reinforcement learning (RL) is an area of machine learning concerned with how intelligent agents ought to take actions in an environment in order to maximize the notion of cumulative reward.[1] Reinforcement learning is one of three basic machine learning paradigms, alongside supervised learning and unsupervised learning.</p>
+      </div>
+    </div>
+    <div class="w3-container w3-center">
+      <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+        onclick="location.href='#mySection2';">
+        Next
+      </button>    
+    </div>
+  </div>
+</div>
+
+<!-- mySection2 : using w3-cell -->
+<div class="w3-container le-bg-cover" id="mySection2">
+    <div class="w3-container" style="padding:10vh 15vh">       
+      <div class="w3-container w3-cell w3-cell-middle">
+        <h1>Long short-term memory (LSTM)</h1>
+        <h6 class="w3-padding-32">長短期記憶（英語：Long Short-Term Memory，LSTM）是一種時間循環神經網路（RNN）[1]，論文首次發表於1997年。由於獨特的設計結構，LSTM適合於處理和預測時間序列中間隔和延遲非常長的重要事件。LSTM的表現通常比時間循環神經網路及隱馬爾科夫模型（HMM）更好，比如用在不分段連續手寫辨識上[2]。2009年，用LSTM構建的人工神經網路模型贏得過ICDAR手寫辨識比賽冠軍。LSTM還普遍用於自主語音辨識，2013年運用TIMIT自然演講資料庫達成17.7%錯誤率的紀錄。作為非線性模型，LSTM可作為複雜的非線性單元用於構造更大型深度神經網路。</h6>
+        <p class="w3-text-sand">Long short-term memory (LSTM) is an artificial recurrent neural network (RNN) architecture[1] used in the field of deep learning. Unlike standard feedforward neural networks, LSTM has feedback connections. It can not only process single data points (such as images), but also entire sequences of data (such as speech or video). For example, LSTM is applicable to tasks such as unsegmented, connected handwriting recognition,[2] speech recognition[3][4] and anomaly detection in network traffic or IDSs (intrusion detection systems).</p>
+      </div>
+      <div class="w3-container w3-cell w3-cell-middle">
+        <a href="#mySection4">
+        <img src="{% static 'img/workshop/car5.webp' %}" style="height:50vh;" alt="To Section 4">
+        </a>
+      </div>       
+    </div>
+    <div class="w3-container w3-center">
+      <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+        onclick="location.href='#mySection4';">
+        Next
+      </button>    
+    </div>
+  </div>
+</div>
+
+{% if False %}
+<!-- mySection1 : Grid -->
+<div class="w3-row-padding w3-padding-64 w3-container le-bg-cover" id="mySection1">
+  <div class="w3-content">
+    <div class="w3-twothird">
+      <h1>Lorem Ipsum</h1>
+      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+      <p class="w3-text-light-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+    <div class="w3-third w3-center">
+      <i class="fa fa-anchor w3-padding-64 w3-text-red"></i>
+    </div>
+  </div>
+</div>
+
+<!-- mySection2 : Grid -->
+<div class="w3-row-padding w3-light-grey w3-padding-64 w3-container le-bg-cover" id="mySection2">
+  <div class="w3-content">
+    <div class="w3-third w3-center">
+      <i class="fa fa-coffee w3-padding-64 w3-text-red w3-margin-right"></i>
+    </div>
+    <div class="w3-twothird">
+      <h1>Lorem Ipsum</h1>
+      <h5 class="w3-padding-32">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</h5>
+      <p class="w3-text-grey">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+        laboris nisi ut aliquip ex ea commodo consequat.</p>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<div class="w3-container le-bg-cover" id="mySection3">
+</div>
+
+<div class="w3-container w3-center w3-padding-64 le-bg-cover" id="mySection4">
+  <div class="w3-container">
+  <img src="{% static 'img/workshop/car8.webp' %}" alt="car8">
+  {% if False %}
+  <div class="w3-row">
+      <div class="w3-quarter w3-container"></div>
+      <div class="w3-half w3-container w3-padding-16 w3-white w3-border">
+        <div class="map">
+          <!-- How to change your own map point
+              1. Go to Google Maps
+              2. Click on your location point
+              3. Click "Share" and choose "Embed map" tab
+              4. Copy only URL and paste it within the src="" field below
+          -->
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12295.632454182562!2d120.33926889755116!3d22.65368678962525!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e052bacc69dc7%3A0xcbccff3381db8d4b!2zMjLCsDM5JzEyLjgiTiAxMjDCsDIwJzI0LjciRQ!5e0!3m2!1szh-TW!2stw!4v1615514807060!5m2!1szh-TW!2stw" width="100%" height="390" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>    
+  </div>
+  {% endif %}
+  </div>  
+  <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+    onclick="location.href='#myHeader';">
+    Home
+  </button>
+  <button class="w3-btn w3-round w3-border w3-deep-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+    onclick="location.href='https://lloydztw.github.io/mysite/';">
+    GitHub
+  </button>  
+</div>
+
+<!-- Footer -->
+<footer class="w3-container w3-padding-16 w3-center w3-indigo">  
+  <div class="w3-xlarge w3-padding-8">    
+    <a href="https://www.facebook.com/letian.chang"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+    <a href="https://www.google.com/"><i class="fa fa-google w3-hover-opacity"></i></a>
+    <a href="mailto:lloydz.tw@gmail.com"><i class="fa far fa-envelope w3-hover-opacity"></i></a>
+    <a href="https://lloydztw.github.io/mysite/"><i class="fa far fa-film w3-hover-opacity"></i></a>
+ </div>
+ <p>Copyright &copy; 2021 Designed by  
+    <a rel="nofollow noopener" href="https://www.facebook.com/letian.chang"> LeTian Chang</a>
+ </p>
+</footer>
+
+<script>
+  // Used to toggle the menu on small screens when clicking on the menu button
+  function myFunction() {
+    var x = document.getElementById("navDemo");
+    if (x.className.indexOf("w3-show") == -1) {
+      x.className += " w3-show";
+    } else { 
+      x.className = x.className.replace(" w3-show", "");
+    }
+  }
+</script>
+
+</body>
+</html>
