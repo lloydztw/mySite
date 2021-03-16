@@ -1,34 +1,34 @@
 
-/* °Êµe±²°Ê */
+/* å‹•ç•«æ²å‹• */
 html {
     scroll-behavior: smooth;
   }
 
-  /* ¥»¯¸¥ş­¶ */
+  /* æœ¬ç«™å…¨é  */
   body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif; color: white;}
   .w3-bar,h1,button {font-family: "Montserrat", sans-serif}
   .fa-anchor,.fa-coffee {font-size:200px}
 
-  /* LETIAN ³q¥Î: Åı­I´º¼µ¶}¥ş°ª(­¶­±)°Ï°ì */
+  /* LETIAN é€šç”¨: è®“èƒŒæ™¯æ’é–‹å…¨é«˜(é é¢)å€åŸŸ */
   .le-bg-cover {
     /* background-attachment:
-        scroll >>> Åı background image ÀHµÛ v-scroll ±²°Ê (¬Û¹ïÀRºA) (system default) 
-        fixed  >>> Åı background image ¤£ÀH v-scroll (¦³µø®t®ÄªG)
+        scroll >>> è®“ background image éš¨è‘— v-scroll æ²å‹• (ç›¸å°éœæ…‹) (system default) 
+        fixed  >>> è®“ background image ä¸éš¨ v-scroll (æœ‰è¦–å·®æ•ˆæœ)
     */
     /* background-attachment: scroll; */ 
     background-attachment: fixed;
-    background-repeat: no-repeat;   /* ¤£­«½Æ */
-    background-size: cover;         /* «O«ù¤ñ¨ÒÁY©ñ¦Ü owner.container ªº¤j¤p */
-    min-height: 100vh;              /* ±j¨î³]©w¬° background-height = ¥şµøµ¡°ª */
-    /* cover ¼Ò¦¡ width ¦Û°Ê¬° 100% x (owner.container.width - padding) */
+    background-repeat: no-repeat;   /* ä¸é‡è¤‡ */
+    background-size: cover;         /* ä¿æŒæ¯”ä¾‹ç¸®æ”¾è‡³ owner.container çš„å¤§å° */
+    min-height: 100vh;              /* å¼·åˆ¶è¨­å®šç‚º background-height = å…¨è¦–çª—é«˜ */
+    /* cover æ¨¡å¼ width è‡ªå‹•ç‚º 100% x (owner.container.width - padding) */
     /* width: 100%; */              
   }
 
-  /* ¥»¯¸ header ­I´º¹Ï */
+  /* æœ¬ç«™ header èƒŒæ™¯åœ– */
   #myHeader {
     background-image: url("../img/workshop/ss-ocean-blue-white.jpg");
-    background-attachment: fixed;   /* ©T©w background image ¤£ÀH v-scroll (¦³µø®t®ÄªG) */
-    padding-top: 25vh;              /* owner.container ½d³ò ©ó ¤º§tª«¤j¤p¤§¥~ ¦A¤W¤UÂX¼W */
+    background-attachment: fixed;   /* å›ºå®š background image ä¸éš¨ v-scroll (æœ‰è¦–å·®æ•ˆæœ) */
+    padding-top: 25vh;              /* owner.container ç¯„åœ æ–¼ å…§å«ç‰©å¤§å°ä¹‹å¤– å†ä¸Šä¸‹æ“´å¢ */
     padding-bottom: 25vh;                                        
   }
 
@@ -39,7 +39,7 @@ html {
 
   #mySection2 {
     background-image: url("../img/workshop/ss-brown-blue-rain.jpg");
-    background-attachment: fixed;   /* Åı background image ¤£ÀH v-scroll (¦³µø®t®ÄªG) */
+    background-attachment: fixed;   /* è®“ background image ä¸éš¨ v-scroll (æœ‰è¦–å·®æ•ˆæœ) */
     z-index: 1;
     background-color: rgba(0,0,0,0.25);
     background-blend-mode: overlay;
@@ -47,14 +47,14 @@ html {
 
   #mySection3 {
     background-image: url("../img/workshop/ss-ocean-light-green.jpg");    
-    background-attachment: fixed;   /* Åı background image ¤£ÀH v-scroll (¦³µø®t®ÄªG) */
-    min-height: 0;                  /* ¤£«ü©w min-height, »²¥H padding, ¥i¥H¦³²Óªøµ¡¤fÅã¥Ü®ÄªG */
-    padding-top: 25vh;              /* image ¥iµø½d³ò ©ó owner container ¤º§tª«¤j¤p ¤W¤U¦AÂX¼W */
+    background-attachment: fixed;   /* è®“ background image ä¸éš¨ v-scroll (æœ‰è¦–å·®æ•ˆæœ) */
+    min-height: 0;                  /* ä¸æŒ‡å®š min-height, è¼”ä»¥ padding, å¯ä»¥æœ‰ç´°é•·çª—å£é¡¯ç¤ºæ•ˆæœ */
+    padding-top: 25vh;              /* image å¯è¦–ç¯„åœ æ–¼ owner container å…§å«ç‰©å¤§å° ä¸Šä¸‹å†æ“´å¢ */
     padding-bottom: 25vh;
   }  
   
   #mySection4 {    
     background-image: url("../img/workshop/ss-ocean-light-shore.jpg");
-    background-attachment: fixed;   /* Åı background image ¤£ÀH v-scroll (¦³µø®t®ÄªG) */
-    min-height: 0;                  /* ¤£«ü©w min-height, »²¥H padding, ¥i¥H¦³²Óªøµ¡¤fÅã¥Ü®ÄªG */
+    background-attachment: fixed;   /* è®“ background image ä¸éš¨ v-scroll (æœ‰è¦–å·®æ•ˆæœ) */
+    min-height: 0;                  /* ä¸æŒ‡å®š min-height, è¼”ä»¥ padding, å¯ä»¥æœ‰ç´°é•·çª—å£é¡¯ç¤ºæ•ˆæœ */
   }  
