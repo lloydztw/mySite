@@ -4,16 +4,17 @@ var myAvailableVideos = {
     '枋山' : '8JQG9bCZZjs',
     '台東' : 'FuYPQOzAe3A',
     '挪威' : 'ftlvreFtA2A',
-    '太空-0' : 'W0LHTWG-UmQ',   // NASA default Earth 
-    '太空-1' : 'AUprhMBRZ7Q',   // NASA Moon Phases 
-    '太空-2' : '8HW9gYGMiwo',   // NASA Earch 2 (no sound)
-    '太空-3' : 'cFC71rFejvo',   // NASA Moon
-    //'太空-x' : '8u7sM8SKrz0',   // 失效
+    '太空-0' : '',                  // dump (回首頁)
+    '太空-1' : 'AUprhMBRZ7Q',       // NASA Moon Phases 
+    '太空-2' : 'W0LHTWG-UmQ',       // NASA default Earth 
+    '太空-3' : 'cFC71rFejvo',       // NASA Moon
+    //'太空-4' : '8HW9gYGMiwo',     // NASA Earch 2 (no sound)
+    //'太空-x' : '8u7sM8SKrz0',     // 失效
 };
 
 // youtube player members
 var myPlayer;
-var myNasaSpaceVideoIdx = 0;
+var myNasaSpaceVideoIdx = 1;
 var myNasaSpaceVideoTotal = 1;
 var myVideoID = myAvailableVideos['太空'] + 'xxx';
 var myPlayerDivID = 'myTitleVideoPlayer';
@@ -51,16 +52,17 @@ function initYoutubeApi(targetDivID) {
     
     myPlayerDivID = targetDivID;
 
-    myNasaSpaceVideoIdx = 0;
+    //> myNasaSpaceVideoIdx = 0;
     myNasaSpaceVideoTotal = 0;
 
     for (var key in myAvailableVideos) {
         if (key.search('太空')==0)
             myNasaSpaceVideoTotal += 1;
     }
-    if (myNasaSpaceVideoTotal > 1) {
+
+    //> 隨機取亂數
+    if (false && myNasaSpaceVideoTotal > 1) {
         myNasaSpaceVideoIdx = Math.floor(Math.random() * myNasaSpaceVideoTotal);
-        myNasaSpaceVideoIdx = 1;
     }
 
     try {
@@ -195,8 +197,16 @@ function changeYoutubeVideo(viedioID) {
         }
 
         var videoName = usingYoutubeVideoID ? viedioID : myAvailableVideos[viedioID];
-        myPlayer.loadVideoById(videoName);
 
+        // 回最首頁 
+        if(videoName=='') {
+            document.location = '../index.html';
+            showLocalVideo()
+            return;
+        }
+
+
+        myPlayer.loadVideoById(videoName);
         if(isVideoMuted())
             muteVideo();
         else
@@ -213,8 +223,6 @@ function changeYoutubeVideo(viedioID) {
     }
 }
 
-
-
 function stopYoutubeVideo() {
   hideVideoIframe();
 
@@ -226,8 +234,6 @@ function stopYoutubeVideo() {
 
   showLocalVideo();
 }
-
-
 
 function isVideoMuted() {
     return myMute;
@@ -252,7 +258,6 @@ function unMuteVideo() {
     catch(e) {
     }
 }
-
 
 function hideVideoIframe() {
     jQuery('#myVideoForeground').hide();
