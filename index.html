@@ -4,21 +4,15 @@
 
 <head>
   <title>Letian's GitHub Pages</title>
-
   <meta charset="utf-8">                
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="author" content="LeTian Chang">
   <meta name="description" content="">
-  <!-- Bootstrap 手機/平板/桌機畫面長寬 -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- 使用 w3.css -->
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
-  <!-- 使用 awesome icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <!-- Favicon: 直接使用 github cdn 的 favicon -->
   <link rel="mask-icon" href="https://github.githubassets.com/pinned-octocat.svg" color="#000000">
   <link rel="alternate icon" class="js-site-favicon" type="image/png" href="https://github.githubassets.com/favicons/favicon.png">
   <link rel="icon" class="js-site-favicon" type="image/svg+xml" href="https://github.githubassets.com/favicons/favicon.svg">
@@ -28,13 +22,12 @@
   <link rel="icon" type="image/png" sizes="16x16" href="myVideoPages/static/favicon/favicon-16x16.png">
   <link rel="manifest" href="myVideoPages/static/favicon/site.webmanifest">
   -->
-
   <style>
   .bg-header {
       background-attachment: fixed;
-      background-repeat: no-repeat;   /* 不重複 */
-      background-size: cover;         /* 保持比例縮放至 owner.container 的大小 */
-      height: 100vh;                  /* 強制設定為 background-height = 全視窗高 */
+      background-repeat: no-repeat;
+      background-size: cover;
+      height: 100vh;
       padding: 25vh 0vh;
   }
   </style>
@@ -45,7 +38,7 @@
       document.getElementById("myCountDown").innerHTML = myCountDown.toString();
       if (myCountDown > 0) {
         myCountDown = myCountDown - 1;
-        var tr = setTimeout(start_count_down, 1000);
+        setTimeout(start_count_down, 1000);
       } 
       else {
         location.href = 'w3/templates/index.html';
