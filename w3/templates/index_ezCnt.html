@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>EzCounter ML 測試範例</title>
+  <meta charset="utf-8">                
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="author" content="LeTian Chang">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="apple-touch-icon" sizes="180x180" href="../static/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../static/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../static/favicon/favicon-16x16.png">
+  <link rel="manifest" href="../static/favicon/site.webmanifest">
+  <link rel="stylesheet" href="../static/css/letian-ocean.css">
+  <link rel="stylesheet" href="../static/css/ez-cnt.css">
+
+  <script>
+    function magnify(imgID, zoom) {
+      var img, glass, w, h, bw;
+      img = document.getElementById(imgID);
+    
+      /* Create magnifier glass: */
+      glass = document.createElement("DIV");
+      glass.setAttribute("class", "img-magnifier-glass");
+    
+      /* Insert magnifier glass: */
+      img.parentElement.insertBefore(glass, img);
+    
+      /* Set background properties for the magnifier glass: */
+      glass.style.backgroundImage = "url('" + img.src + "')";
+      glass.style.backgroundRepeat = "no-repeat";
+      glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+      bw = 3;
+      w = glass.offsetWidth / 2;
+      h = glass.offsetHeight / 2;
+    
+      /* Execute a function when someone moves the magnifier glass over the image: */
+      glass.addEventListener("mousemove", moveMagnifier);
+      img.addEventListener("mousemove", moveMagnifier);
+    
+      /*and also for touch screens:*/
+      glass.addEventListener("touchmove", moveMagnifier);
+      img.addEventListener("touchmove", moveMagnifier);
+      function moveMagnifier(e) {
+        var pos, x, y;
+        /* Prevent any other actions that may occur when moving over the image */
+        e.preventDefault();
+        /* Get the cursor's x and y positions: */
+        pos = getCursorPos(e);
+        x = pos.x;
+        y = pos.y;
+        /* Prevent the magnifier glass from being positioned outside the image: */
+        if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+        if (x < w / zoom) {x = w / zoom;}
+        if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+        if (y < h / zoom) {y = h / zoom;}
+        /* Set the position of the magnifier glass: */
+        glass.style.left = (x - w) + "px";
+        glass.style.top = (y - h) + "px";
+        /* Display what the magnifier glass "sees": */
+        glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
+      }
+    
+      function getCursorPos(e) {
+        var a, x = 0, y = 0;
+        e = e || window.event;
+        /* Get the x and y positions of the image: */
+        a = img.getBoundingClientRect();
+        /* Calculate the cursor's x and y coordinates, relative to the image: */
+        x = e.pageX - a.left;
+        y = e.pageY - a.top;
+        /* Consider any page scrolling: */
+        x = x - window.pageXOffset;
+        y = y - window.pageYOffset;
+        return {x : x, y : y};
+      }
+    }
+    function imageZoom(imgID, resultID) {
+      var img, lens, result, cx, cy;
+      img = document.getElementById(imgID);
+      result = document.getElementById(resultID);
+      /* Create lens: */
+      lens = document.createElement("DIV");
+      lens.setAttribute("class", "img-zoom-lens");
+      /* Insert lens: */
+      img.parentElement.insertBefore(lens, img);
+      /* Calculate the ratio between result DIV and lens: */
+      cx = result.offsetWidth / lens.offsetWidth;
+      cy = result.offsetHeight / lens.offsetHeight;
+      /* Set background properties for the result DIV */
+      result.style.backgroundImage = "url('" + img.src + "')";
+      result.style.backgroundSize = (img.width * cx) + "px " + (img.height * cy) + "px";
+      /* Execute a function when someone moves the cursor over the image, or the lens: */
+      lens.addEventListener("mousemove", moveLens);
+      img.addEventListener("mousemove", moveLens);
+      /* And also for touch screens: */
+      lens.addEventListener("touchmove", moveLens);
+      img.addEventListener("touchmove", moveLens);
+      function moveLens(e) {
+        var pos, x, y;
+        /* Prevent any other actions that may occur when moving over the image */
+        e.preventDefault();
+        /* Get the cursor's x and y positions: */
+        pos = getCursorPos(e);
+        /* Calculate the position of the lens: */
+        x = pos.x - (lens.offsetWidth / 2);
+        y = pos.y - (lens.offsetHeight / 2);
+        /* Prevent the lens from being positioned outside the image: */
+        if (x > img.width - lens.offsetWidth) {x = img.width - lens.offsetWidth;}
+        if (x < 0) {x = 0;}
+        if (y > img.height - lens.offsetHeight) {y = img.height - lens.offsetHeight;}
+        if (y < 0) {y = 0;}
+        /* Set the position of the lens: */
+        lens.style.left = x + "px";
+        lens.style.top = y + "px";
+        /* Display what the lens "sees": */
+        result.style.backgroundPosition = "-" + (x * cx) + "px -" + (y * cy) + "px";
+      }
+      function getCursorPos(e) {
+        var a, x = 0, y = 0;
+        e = e || window.event;
+        /* Get the x and y positions of the image: */
+        a = img.getBoundingClientRect();
+        /* Calculate the cursor's x and y coordinates, relative to the image: */
+        x = e.pageX - a.left;
+        y = e.pageY - a.top;
+        /* Consider any page scrolling: */
+        x = x - window.pageXOffset;
+        y = y - window.pageYOffset;
+        return {x : x, y : y};
+      }
+    }        
+  </script>
+</head>
+
+<body>
+  <header class="w3-container w3-black w3-center le-bg-cover" id="myHeader">
+      <h1 class="w3-margin w3-jumbo">
+        <strong>
+        <span style="color:#BADA55;">Eazy </span><span style="color:#0CC8ED;">Counter</span>
+        <span style="color:#FFFFFF;">ML</span>
+        </strong>
+      </h1>
+      <p class="w3-xlarge">多頭 Counter 訓練後回測範例 : <br/>晶粒型式 08E (5x6 mils)</p>
+      <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+        onclick="location.href='#mySection1';">
+        Show
+      </button>
+  </header>
+  
+  <div class="w3-container w3-center le-bg-cover" id="mySection1">
+    <div class="w3-container w3-center">
+    <h1>原圖</h1> 
+    </div>
+    <div class="w3-container" style="padding:10vh 15vh">    
+        <div class="row">
+          <div class="column column_ez3">
+            <a href="../static/img/EzCnt_08E/3_20220112_102344_Live.jpg" target="_blank">
+            <img class="ez-zoom" src="../static/img/EzCnt_08E/3_20220112_102344_Live.jpg">
+            </a>
+            <a href="../static/img/EzCnt_08E/6_20220112_102422_Live.jpg" target="_blank">
+            <img class="ez-zoom" src="../static/img/EzCnt_08E/6_20220112_102422_Live.jpg">
+            </a>
+          </div>
+          <div class="column column_ez3">
+            <a href="../static/img/EzCnt_08E/4_20220112_102405_Live.jpg" target="_blank">
+            <img class="ez-zoom" src="../static/img/EzCnt_08E/4_20220112_102405_Live.jpg">
+            </a>
+            <a href="../static/img/EzCnt_08E/7_20220112_102431_Live.jpg" target="_blank">
+            <img class="ez-zoom" src="../static/img/EzCnt_08E/7_20220112_102431_Live.jpg">
+            </a>
+          </div>
+          <div class="column column_ez3">
+            <a href="../static/img/EzCnt_08E/5_20220112_102412_Live.jpg" target="_blank">
+            <img class="ez-zoom" src="../static/img/EzCnt_08E/5_20220112_102412_Live.jpg">
+            </a>
+            <a href="../static/img/EzCnt_08E/8_20220112_102442_Live.jpg" target="_blank">
+            <img class="ez-zoom" src="../static/img/EzCnt_08E/8_20220112_102442_Live.jpg">
+            </a>
+          </div>
+        </div>                
+    </div>
+  </div>
+  
+  <div class="w3-container w3-center le-bg-cover" id="mySection2">
+    <div class="w3-container w3-center">
+      <h1>計算結果</h1>
+    </div>
+    <div class="w3-container" style="padding:10vh 15vh">    
+      <div class="row">
+        <div class="column column_ez3">
+          <a href="../static/img/EzCnt_08E/3_QTY_4415.jpg" target="_blank">
+            <img id="ez-3" class="ez-zoom" src="../static/img/EzCnt_08E/3_QTY_4415.jpg">
+          </a>
+          <a href="../static/img/EzCnt_08E/6_20220112_102422_QTY_3045.jpg" target="_blank">
+            <img id="ez-6" class="ez-zoom" src="../static/img/EzCnt_08E/6_20220112_102422_QTY_3045.jpg">
+          </a>
+        </div>
+        <div class="column column_ez3">
+          <a href="../static/img/EzCnt_08E/4_20220112_102405_QTY_51450.jpg" target="_blank">
+          <img id="ez-4" class="ez-zoom" src="../static/img/EzCnt_08E/4_20220112_102405_QTY_51450.jpg">
+          </a>
+          <a href="../static/img/EzCnt_08E/7_20220112_102431_QTY_39253.jpg" target="_blank">
+          <img id="ez-7" class="ez-zoom" src="../static/img/EzCnt_08E/7_20220112_102431_QTY_39253.jpg">
+          </a>
+        </div>
+        <div class="column column_ez3">
+          <a href="../static/img/EzCnt_08E/5_20220112_102412_QTY_3409.jpg" target="_blank">
+          <img id="ez-5" class="ez-zoom" src="../static/img/EzCnt_08E/5_20220112_102412_QTY_3409.jpg">
+          </a>
+          <a href="../static/img/EzCnt_08E/8_20220112_102442_QTY_2168.jpg" target="_blank">
+          <img id="ez-8" class="ez-zoom" src="../static/img/EzCnt_08E/8_20220112_102442_QTY_2168.jpg">
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="w3-container w3-center" style="padding:10vh 15vh">
+        <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+          onclick="location.href='#myHeader';">
+          Home
+        </button>    
+    </div>    
+  </div>
+
+<!--
+  <div class="w3-container w3-center le-bg-cover" id="mySection3">
+    <div class="w3-container w3-center">
+      <h1>個別放大</h1>
+        <button class="w3-btn w3-round w3-border w3-orange w3-text-white w3-padding-medium w3-large w3-margin-top" 
+          onclick="location.href='#myHeader';">
+          Home
+        </button>    
+    </div>
+    <div class="w3-container" style="padding:10vh 15vh">    
+      <div class="row">
+        <div class="column column_ez2 img-zoom-container">
+          <img id="ezz-3" src="../static/img/EzCnt_08E/3_20220112_102344_QTY_4415.jpg">
+          <div id="ezz-3-result" class="img-zoom-result"></div>
+        </div>
+      </div>                      
+    </div>
+  </div>
+-->  
+
+  <footer class="w3-container w3-padding-16 w3-center w3-indigo">  
+    <div class="w3-xlarge w3-padding-8">    
+      <a href="https://www.facebook.com/letian.chang"><i class="fa fa-facebook-official w3-hover-opacity"></i></a>
+      <a href="https://www.google.com/"><i class="fa fa-google w3-hover-opacity"></i></a>
+      <a href="mailto:lloydz.tw@gmail.com"><i class="fa far fa-envelope w3-hover-opacity"></i></a>
+      <a href="../../myVideoPages/index.html"><i class="fa far fa-film w3-hover-opacity"></i></a>
+  </div>
+  <p>Copyright &copy; 2021 Designed by  
+      <a rel="nofollow noopener" href="https://www.facebook.com/letian.chang"> LeTian Chang</a>
+  </p>
+  </footer>
+
+  <script>
+    // Used to toggle the menu on small screens when clicking on the menu button
+    function myFunction() {
+      var x = document.getElementById("navDemo");
+      if (x.className.indexOf("w3-show") == -1) {
+        x.className += " w3-show";
+      } else { 
+        x.className = x.className.replace(" w3-show", "");
+      }
+    }
+    // Initiate Magnify Function
+    //  with the id of the image, and the strength of the magnifier glass:
+    //magnify("ez-4", 16);
+    //imageZoom("ezz-3", "ezz-3-result");
+  </script>
+
+</body>
+
+</html>
