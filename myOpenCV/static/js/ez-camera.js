@@ -25,8 +25,8 @@ const buttonIds = ["availableCameras", "btnLiveCamera", "btnLocalFilter", "btnPo
 let _currentState = 'unknown';
 let _currentStream = null;         
 let _filterRunFlag = false;
-let _width = 1080;
-let _height = 720;
+let _width = 640;
+let _height = 480;
 let _vidCap = null;             //new cv.VideoCapture(video);
 let _vidSrc32 = null;           //new cv.Mat(height, width, cv.CV_8UC4);
 let _dst8;
@@ -109,6 +109,8 @@ function _initEventHandlers() {
         snapshotAndPostToCloud();
     }
 
+    return;
+    
     // select default camera
     try {
         const c = selectElem.lastChild;
@@ -143,8 +145,6 @@ function openCamera() {
         return;
 
     _closeCamera();    
-    // _width = 640;
-    // _height = 480;
 
     const videoConstraints = {};
     if (selectElem.value === '') {
@@ -152,8 +152,8 @@ function openCamera() {
     } else {
         videoConstraints.deviceId = { exact: selectElem.value };
     }
-    // videoConstraints.width = { ideal: _width };    
-    // videoConstraints.height = { ideal: _height };
+    videoConstraints.width = { ideal: _width };    
+    videoConstraints.height = { ideal: _height };
 
     const constraints = {
         video: videoConstraints,
@@ -413,6 +413,7 @@ function _updateAnchorBoxesPos() {
     const anchor1 = document.getElementById("anchorBox-1");
     const anchor2 = document.getElementById("anchorBox-2");
     const owner = anchor1.parentElement;    //document.getElementById(canvasDispId);
+    const posTag = "";  //relative";
     const px = owner.offsetLeft;
     const py = owner.offsetTop;
     const pw = owner.offsetWidth;
@@ -432,12 +433,13 @@ function _updateAnchorBoxesPos() {
     ay = ay * yratio + py;
     ay2 = ay2 * yratio + py;    
     // style
-    anchor1.style.position = "fixed";
+    anchor1.style.position = posTag;
     anchor1.style.left = ax + "px";
     anchor1.style.top = ay + "px";
     anchor1.style.width = aw + "px";
     anchor1.style.height = aw + "px";
-    anchor2.style.position = "fixed";
+    // style
+    anchor2.style.position = posTag;
     anchor2.style.left = ax + "px";
     anchor2.style.top = ay2 + "px";
     anchor2.style.width = aw + "px";
