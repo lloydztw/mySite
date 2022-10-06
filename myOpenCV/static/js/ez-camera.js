@@ -14,7 +14,7 @@
 //          media.getusermedia.insecure.enabled
 //
 
-const OPT_SIM = false;
+const OPT_SIM = true;
 
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
@@ -108,6 +108,11 @@ function _initEventHandlers() {
     }
     document.getElementById('btnPostToCloud').onclick = function() {
         snapshotAndPostToCloud();
+    }
+
+    video.onloadeddata = function() {
+        // alert("video.onloaddata");
+        _adjustCanvasGuiSize(video);
     }
 
     // return;
@@ -456,6 +461,11 @@ function _updateAnchorBoxesPos() {
     const py = owner.offsetTop;
     const pw = owner.offsetWidth;
     const ph = owner.offsetHeight;
+    
+    console.log(`video offsetWidth=${pw} offsetHeight=${ph}`);
+    const tgt = document.getElementById("ez-log");
+    tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
+
     // coordinates in video frame.
     let aw = parseInt(Math.min(_width, _height) * 0.1);
     const ax_gap = aw * 1;
