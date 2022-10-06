@@ -152,8 +152,8 @@ function openCamera() {
     } else {
         videoConstraints.deviceId = { exact: selectElem.value };
     }
-    videoConstraints.width = { ideal: _width };    
-    videoConstraints.height = { ideal: _height };
+    // videoConstraints.width = { ideal: _width };    
+    // videoConstraints.height = { ideal: _height };
 
     const constraints = {
         video: videoConstraints,
