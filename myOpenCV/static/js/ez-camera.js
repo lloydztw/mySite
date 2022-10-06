@@ -25,8 +25,8 @@ const buttonIds = ["availableCameras", "btnLiveCamera", "btnLocalFilter", "btnPo
 let _currentState = 'unknown';
 let _currentStream = null;         
 let _filterRunFlag = false;
-let _width = 800;
-let _height = 1080;
+let _width = 1080;
+let _height = 720;
 let _vidCap = null;             //new cv.VideoCapture(video);
 let _vidSrc32 = null;           //new cv.Mat(height, width, cv.CV_8UC4);
 let _dst8;
