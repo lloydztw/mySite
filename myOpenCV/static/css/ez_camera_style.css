@@ -93,16 +93,15 @@ video, img, canvas {
 }
 
 #anchorBox-1, #anchorBox-2 {
-  /* position: absolute; */
-  position: fixed;
-  left: 80%;
-  top: 20%;
+  position: absolute;
+  left: 5px;
+  top: 5px;
   width: 100px;
   height: 100px;
   border: solid;
-  border-width: 1px;
+  border-width: 3px;
   border-color: yellow;
-  opacity: 0%;
+  background-color: transparent;
 }
 
 

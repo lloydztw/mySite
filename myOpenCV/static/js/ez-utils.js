@@ -56,6 +56,11 @@ function toggleFullScreen() {
 
 
 function showBusyIcon(show) {
+    const bi = document.getElementById("bigWaitIcon");
+    if(bi) {
+        bi.style.visibility = show ? "visible" : "hidden" ;
+    }
+    
     let elems = document.getElementsByClassName("header-icons");
     if (elems.length==0) {
         return;

@@ -37,7 +37,7 @@
     <section id="section-1" class="w3-container w3-center w3-dimgray">
       <select id="availableCameras"></select>
       <button id="btnLiveCamera">即時影像</button>
-      <button id="btnLoadFilter">本機濾波</button>
+      <button id="btnLocalFilter">本機濾波</button>
       <button id="btnPostToCloud">雲端處理</button>
     </section>
 
@@ -46,12 +46,15 @@
       <video id="videoInput" autoplay playsinline></video>
       <canvas id="canvasFrame" style="display: none;"> </canvas>
       <canvas id="canvasDisplay" style="display: none;"> </canvas>
-      <div id="anchorBox-1"></div>
-      <div id="anchorBox-2"></div>  
+      <div id="anchorBox-1" style="visibility: hidden;"></div>
+      <div id="anchorBox-2" style="visibility: hidden;"></div>  
     </section>
 
     <section id="section-3" class="w3-container w3-dimgray">
-    </section>
+      <div id="bigWaitIcon" class="w3-center", style="visibility: hidden">
+        <span><i class="fa fa-spinner w3-spin" style="font-size:72px; color:#ff33cc;"></i></span>
+      </div>
+   </section>
 
     <footer class="w3-container w3-indigo w3-bottom">
       <p id="status-id">[opencv] loading ...</p>
@@ -71,8 +74,8 @@
       // updateStatus('WebRTC','is ready.');
       // showBusyIcon(false);
       // autoAdjustElemsWidth();
+      autoAdjustElemsWidth();
       initCamera();
-      // openCamera();
     }
   </script>
   
