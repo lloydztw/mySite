@@ -35,10 +35,22 @@
     </header>
 
     <section id="section-1" class="w3-container w3-center w3-dimgray">
-      <select id="availableCameras"></select>
-      <button id="btnLiveCamera">即時影像</button>
-      <button id="btnLocalFilter">本機濾波</button>
-      <button id="btnPostToCloud">雲端處理</button>
+      <div class="w3-row">
+        <div class="w3-col s4">
+          <select id="availableCameras"></select>
+        </div>
+      </div>
+      <div class="w3-row">
+        <div class="w3-col s4">
+        <button id="btnLiveCamera">即時影像</button>
+        </div>
+        <div class="w3-col s4">
+        <button id="btnLocalFilter">本機濾波</button>
+        </div>
+        <div class="w3-col s4">
+        <button id="btnPostToCloud">雲端處理</button>
+        </div>
+      </div>
     </section>
 
     <section id="section-2">
@@ -59,7 +71,7 @@
 
     <footer class="w3-container w3-indigo w3-bottom">
       <p id="status-id">[opencv] loading ...</p>
-      <div id="ez-log"></div>
+      <!-- <div id="ez-log"></div> -->
     </footer>
 
   <!-- </div> -->

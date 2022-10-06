@@ -52,7 +52,7 @@ header {
   border: none;
 }
 
-button, input {
+select, button, input {
   margin-left: 1px;
   margin-right: 0px;
   margin-bottom: 10px;

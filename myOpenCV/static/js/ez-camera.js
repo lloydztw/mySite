@@ -186,6 +186,11 @@ function openCamera() {
         _showVideoOrCanvas(video);
         video.play();
     })
+    .then(function() {
+        // 再抓一次.
+        return navigator.mediaDevices.enumerateDevices();
+    })
+    .then(_gotDevices)
     .catch(function(err) {
         // console.log("An error occurred! " + err);
         const errMsg = "openCamera 異常: " + err;
@@ -463,8 +468,9 @@ function _updateAnchorBoxesPos() {
     const ph = owner.offsetHeight;
     
     console.log(`video offsetWidth=${pw} offsetHeight=${ph}`);
-    const tgt = document.getElementById("ez-log");
-    tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
+    // const tgt = document.getElementById("ez-log");
+    // tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
+    canvasDisp.style.height = ph + "px";
 
     // coordinates in video frame.
     let aw = parseInt(Math.min(_width, _height) * 0.1);
