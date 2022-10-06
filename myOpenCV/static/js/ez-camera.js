@@ -26,8 +26,8 @@ const buttonIds = ["availableCameras", "btnLiveCamera", "btnLocalFilter", "btnPo
 let _currentState = 'unknown';
 let _currentStream = null;         
 let _filterRunFlag = false;
-let _width = 640;
-let _height = 480;
+let _width = 640*2;
+let _height = 480*2;
 let _vidCap = null;             //new cv.VideoCapture(video);
 let _vidSrc32 = null;           //new cv.Mat(height, width, cv.CV_8UC4);
 let _dst8;
@@ -471,6 +471,7 @@ function _updateAnchorBoxesPos() {
     // const tgt = document.getElementById("ez-log");
     // tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
     canvasDisp.style.height = ph + "px";
+    canvasDisp.parentElement.style.height = ph + "px";
 
     // coordinates in video frame.
     let aw = parseInt(Math.min(_width, _height) * 0.1);
