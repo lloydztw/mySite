@@ -14,12 +14,13 @@
 //          media.getusermedia.insecure.enabled
 //
 
+const OPT_SIM = true;
 
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
 const video = document.getElementById("videoInput");
-const canvasFrame = document.getElementById("canvasFrame");
-const canvasDispId = "canvasDisplay";
+const canvasDisp = document.getElementById("canvasDisp");
+const canvasDispId = "canvasDisp";
 const buttonIds = ["availableCameras", "btnLiveCamera", "btnLocalFilter", "btnPostToCloud"];
 
 let _currentState = 'unknown';
@@ -89,8 +90,8 @@ function initCamera() {
         .then(function(){
             showBusyIcon(false);
             updateStatus('mediaDevices', 'got!');
-            _initEventHandlers();
             _changeState("Devices_OK");
+            _initEventHandlers();
         });
 }
 
@@ -109,7 +110,7 @@ function _initEventHandlers() {
         snapshotAndPostToCloud();
     }
 
-    return;
+    // return;
     
     // select default camera
     try {
@@ -141,6 +142,11 @@ function _gotDevices(mediaDeviceInfos) {
 
 
 function openCamera() {
+    if (OPT_SIM) {
+        _openCamera_sim();
+        return;
+    }
+
     if(_currentState == "Camera_Live")
         return;
 
@@ -162,29 +168,55 @@ function openCamera() {
     // console.log(videoConstraints);
 
     navigator.mediaDevices.getUserMedia(constraints)
-        .then(function(stream) {
-            let settings = stream.getVideoTracks()[0].getSettings();
-            _width = settings.width;
-            _height = settings.height;
-            _currentStream = stream;
-            video.srcObject = stream;
-            video.width = _width;
-            video.height = _height;
-            _adjustCanvasGuiSize(video);
-            _changeState("Camera_Live");
-            _showVideoOrCanvas(video);
-        })
-        .catch(function(err) {
-            // console.log("An error occurred! " + err);
-            const errMsg = "openCamera 異常: " + err;
-            console.error(errMsg);
-            alert(errMsg);
-        });
+    .then(function(stream) {
+        let settings = stream.getVideoTracks()[0].getSettings();
+        _width = settings.width;
+        _height = settings.height;
+        _currentStream = stream;
+        video.srcObject = stream;
+        video.width = _width;
+        video.height = _height;
+        _adjustCanvasGuiSize(video);
+        _changeState("Camera_Live");
+        _showVideoOrCanvas(video);
+        video.play();
+    })
+    .catch(function(err) {
+        // console.log("An error occurred! " + err);
+        const errMsg = "openCamera 異常: " + err;
+        console.error(errMsg);
+        alert(errMsg);
+    });
+}
+
+function _openCamera_sim() {
+    if(_currentState == "Camera_Live")
+        return;
+
+    try{    
+        _closeCamera();  
+        _width = 320;
+        _height = 240;
+        video.width = _width;
+        video.height = _height;
+        video.innerHTML = `<source src="../static/img/_tmp_movie.mp4" type="video/mp4">`
+        _currentStream = "sim";
+        _adjustCanvasGuiSize(video);
+        _changeState("Camera_Live");
+        _showVideoOrCanvas(video);
+    } catch(err) {
+        // console.log("An error occurred! " + err);
+        const errMsg = "openCamera 異常: " + err;
+        console.error(errMsg);
+        alert(errMsg);
+    }
 }
 
 
 function _closeCamera() {
     function _stopMediaTracks(stream) {
+        if(stream==="sim")
+            return;
         if(stream) {
             stream.getTracks().forEach(track => {
                 track.stop();
@@ -251,6 +283,7 @@ function _postImageToCloud(img) {
             cv.bitwise_not(dst, dst);
             cv.imshow(canvasDispId, dst);
             _showVideoOrCanvas(canvasDispId);
+            _showAnchorBoxes(false);
         }
         _changeState("Cloud_Result");
     }
@@ -276,7 +309,7 @@ function startLocalFiltering() {
     if(_filterRunFlag)
         return;
     try {    
-        _prepareCvCaptureBufs(_width, _height, _currentStream);
+        _prepareCvCaptureBufs(_width, _height);
         // hide video and show canvas
         // video.style.display = 'none';
         // document.getElementById(canvasDispId).style.display = 'block';
@@ -361,7 +394,7 @@ function _disposeCvBufs(){
 }
 
 
-function _prepareCvCaptureBufs(width, height, stream) {
+function _prepareCvCaptureBufs(width, height) {
     if (!_disposeCvBufs())
         return;
 
@@ -377,26 +410,26 @@ function _createMorphFilter(width, height) {
     // DEMO
     let filter = {
         name : "MORPH_GRADIENT",
-        buf8 : new cv.Mat(height,width, cv.CV_8UC1),
-        dst8 : new cv.Mat(height,width, cv.CV_8UC1),
+        buf : new cv.Mat(height,width, cv.CV_8UC3),
+        dst : new cv.Mat(height,width, cv.CV_8UC3),
         kernel : cv.Mat.ones(5, 5, cv.CV_8U),
 
         dispose : function() {
-            if (this.dst8) 
-                delete this.dst8;
-                this.dst8 = null;
-            if (this.buf8) 
-                delete this.buf8;
-                this.buf8 = null;
+            if (this.dst) 
+                delete this.dst;
+                this.dst = null;
+            if (this.buf) 
+                delete this.buf;
+                this.buf = null;
             if (this.kernel) 
                 delete this.kernel;
                 this.kernel = null;
         },
 
         applyFilter : function(src32) {
-            cv.cvtColor(src32, this.buf8, cv.COLOR_RGBA2GRAY);
-            cv.morphologyEx(this.buf8, this.dst8, cv.MORPH_GRADIENT, this.kernel);
-            return this.dst8;
+            cv.cvtColor(src32, this.buf, cv.COLOR_RGBA2RGB);
+            cv.morphologyEx(this.buf, this.dst, cv.MORPH_GRADIENT, this.kernel);
+            return this.dst;
         },
     };
     return filter;
@@ -411,9 +444,14 @@ function _adjustCanvasGuiSize(videoElem) {
 
 function _updateAnchorBoxesPos() {
     const anchor1 = document.getElementById("anchorBox-1");
-    const anchor2 = document.getElementById("anchorBox-2");
-    const owner = anchor1.parentElement;    //document.getElementById(canvasDispId);
-    const posTag = "";  //relative";
+    const anchor2 = document.getElementById("anchorBox-2");    
+    // zIndex
+    video.style.zIndex = 1;
+    canvasDisp.style.zIndex = 9;
+    anchor1.style.zIndex = 19;
+    anchor2.style.zIndex = 19;
+    // anchors
+    const owner = video;
     const px = owner.offsetLeft;
     const py = owner.offsetTop;
     const pw = owner.offsetWidth;
@@ -433,23 +471,25 @@ function _updateAnchorBoxesPos() {
     ay = ay * yratio + py;
     ay2 = ay2 * yratio + py;    
     // style
-    anchor1.style.position = posTag;
+    // anchor1.style.position = "absolute";
     anchor1.style.left = ax + "px";
     anchor1.style.top = ay + "px";
     anchor1.style.width = aw + "px";
     anchor1.style.height = aw + "px";
     // style
-    anchor2.style.position = posTag;
+    // anchor2.style.position = "absolute";
     anchor2.style.left = ax + "px";
     anchor2.style.top = ay2 + "px";
     anchor2.style.width = aw + "px";
     anchor2.style.height = aw + "px";
     //
     _showAnchorBoxes(true);
+
     // bigWaitIcon
     const bi = document.getElementById("bigWaitIcon");
     if(bi) {
         bi.style.position = "absolute";
+        bi.style.zIndex = 29;
         const bw = bi.offsetWidth;
         const bx = (pw - bw) / 2;
         const by = (ay + ay2 - bw) / 2;
@@ -459,25 +499,29 @@ function _updateAnchorBoxesPos() {
 }
 
 
-function _showAnchorBoxes(show) {
-    const anchor1 = document.getElementById("anchorBox-1");
-    const anchor2 = document.getElementById("anchorBox-2");
-    if(show) {
-        anchor1.style.visibility = 'visible';
-        anchor2.style.visibility = 'visible';
-    } else {
-        anchor1.style.visibility = 'hidden';
-        anchor2.style.visibility = 'hidden';
-    }
+function _showAnchorBoxes(visible) {
+    showElem("anchorBox-1", visible);
+    showElem("anchorBox-2", visible);
 }
 
 
 function _showVideoOrCanvas(target) {
     if(target === video) {
-        document.getElementById(canvasDispId).style.display = 'none';
-        video.style.display = 'block';    
+        canvasDisp.style.display = 'none';
+        // video.style.display = 'block';    
     } else {
-        video.style.display = 'none';
-        document.getElementById(canvasDispId).style.display = 'block';
+        // video.style.display = 'none';
+        canvasDisp.style.display = 'block';
     }
 }
+
+
+// function showElem(id, visible, display = null) {
+//     const elem = document.getElementById(id);
+//     if(elem) {
+//         elem.style.visibility = visible ? "visible" : "hidden";
+//         if(display != null) {
+//             elem.style.display = display;
+//         }
+//     }
+// }

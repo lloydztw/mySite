@@ -110,6 +110,19 @@ function enableElem(ids, enabled) {
 }
 
 
+function showElem(ids, visible, display = null) {
+    if (Array.isArray(ids))
+        ids.forEach((v,i,a) => { showElem(v, visible, display); });
+    const elem = document.getElementById(ids);
+    if(elem) {
+        elem.style.visibility = visible ? "visible" : "hidden";
+        if(display != null) {
+            elem.style.display = display;
+        }
+    }
+}
+
+
 function _TRACE(moduleName, msg) {
     if (!moduleName)
         moduleName = "EzImageUtils";
