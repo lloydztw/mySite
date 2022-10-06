@@ -57,7 +57,7 @@
         <!-- <div class="displayZoneOutter"> -->
         <!-- <video id="videoInput" autoplay playsinline></video> -->
         <video id="videoInput" class="displayZone" autoplay playsinline></video>
-        <canvas id="canvasDisp"  class="displayZone" style="display: none;"> </canvas>
+        <canvas id="canvasDisp"  class="displayZone" style="visibility: visible;"> </canvas>
         <div id="anchorBox-1" class="displayZone" style="visibility: hidden;"></div>
         <div id="anchorBox-2" class="displayZone" style="visibility: hidden;"></div>  
         <div id="bigWaitIcon" class="w3-center", style="visibility: hidden;">
@@ -76,12 +76,14 @@
 
   <!-- </div> -->
 
-  <script src="../static/js/opencv.js" type="text/javascript"></script>
   <script src="../static/js/ez-utils.js" type="text/javascript"></script>
   <script src="../static/js/ez-camera.js" type="text/javascript"></script>
   <script type="text/javascript">
-    updateStatus('opencv','is loaded (sync).');
-    cv.onRuntimeInitialized = onCvReady;
+    showBusyIcon(true);
+    function onCvLoad() {
+      updateStatus('opencv','is loaded (sync).');
+      cv.onRuntimeInitialized = onCvReady;
+    }
     function onCvReady() {
       updateStatus('opencv','is ready.');
       // initAvailableCameras('select#availableCameras');
@@ -92,6 +94,7 @@
       initCamera();
     }
   </script>
+  <script async src="../static/js/opencv.js" type="text/javascript" onload="onCvLoad();"></script>
   
 </body>
 </html>

@@ -14,7 +14,7 @@
 //          media.getusermedia.insecure.enabled
 //
 
-const OPT_SIM = false;
+const OPT_SIM = true;
 
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
@@ -86,13 +86,14 @@ function initCamera() {
     // video.setAttribute('playsinline', '');
     enableElem(buttonIds, false);
     navigator.mediaDevices.enumerateDevices()
-        .then(_gotDevices)
-        .then(function(){
-            showBusyIcon(false);
-            updateStatus('mediaDevices', 'got!');
-            _changeState("Devices_OK");
-            _initEventHandlers();
-        });
+    .then(_gotDevices)
+    .then(function(){
+        showBusyIcon(false);
+        updateStatus('mediaDevices', 'got!');
+        _changeState("Devices_OK");
+        _initEventHandlers();
+    })
+    .then(_selectDefaultCamera);
 }
 
 
@@ -114,14 +115,19 @@ function _initEventHandlers() {
         // alert("video.onloaddata");
         _adjustCanvasGuiSize(video);
     }
+}
 
-    // return;
-    
+
+function _selectDefaultCamera() {
+    if(OPT_SIM) {
+        openCamera();
+        return;
+    }    
     // select default camera
     try {
-        const c = selectElem.lastChild;
-        if(c!=null && c.value!=null) {
-            selectElem.value = c.value;
+        const c = selectElem.length - 1;
+        if(c >= 0) {
+            selectElem.selectedIndex = c;
             openCamera();
         }
     } catch(err) {
@@ -152,10 +158,9 @@ function openCamera() {
         return;
     }
 
-    if(_currentState == "Camera_Live")
-        return;
-
-    _closeCamera();    
+    // if(_currentState == "Camera_Live")
+    //     return;
+    _closeCamera();
 
     const videoConstraints = {};
     if (selectElem.value === '') {
@@ -200,8 +205,8 @@ function openCamera() {
 }
 
 function _openCamera_sim() {
-    if(_currentState == "Camera_Live")
-        return;
+    // if(_currentState == "Camera_Live")
+    //     return;
 
     try{    
         _closeCamera();  
@@ -471,7 +476,7 @@ function _updateAnchorBoxesPos() {
     // const tgt = document.getElementById("ez-log");
     // tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
     canvasDisp.style.height = ph + "px";
-    canvasDisp.parentElement.style.height = ph + "px";
+    // document.getElementById("section-2").style.height = (ph+50) + "px";
 
     // coordinates in video frame.
     let aw = parseInt(Math.min(_width, _height) * 0.1);
