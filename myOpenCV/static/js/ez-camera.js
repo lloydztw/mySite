@@ -15,42 +15,94 @@
 //
 
 
-
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
 const video = document.getElementById("videoInput");
 const canvasFrame = document.getElementById("canvasFrame");
 const canvasDispId = "canvasDisplay";
+const buttonIds = ["availableCameras", "btnLiveCamera", "btnLocalFilter", "btnPostToCloud"];
 
-let width = 640;
-let height = 480;
-let src = null;             //new cv.Mat(height, width, cv.CV_8UC4);
-let dst = null;             //new cv.Mat(height, width, cv.CV_8UC1);
-let cap = null;             //new cv.VideoCapture(video);
-let _streaming = false;
+let _currentState = 'unknown';
+let _currentStream = null;         
+let _filterRunFlag = false;
+let _width = 640;
+let _height = 480;
+let _cap = null;            //new cv.VideoCapture(video);
+let _src = null;            //new cv.Mat(height, width, cv.CV_8UC4);
+let _dst = null;            //new cv.Mat(height, width, cv.CV_8UC1);
+
+
+function _changeState(state) {
+    if(_currentState === state)
+        return;
+    _currentState = state;
+    switch(state) {
+        case "Devices_OK":
+            showBusyIcon(false);
+            updateStatus('mediaDevices', 'are ready.');
+            enableElem(buttonIds, false);
+            enableElem('availableCameras', true);
+            break;
+        case "Camera_Live":
+            showBusyIcon(false);
+            updateStatus(state, `${_width}x${_height}`);
+            enableElem(buttonIds, false);
+            enableElem('btnLocalFilter', true);
+            enableElem('btnPostToCloud', true);
+            if(_currentStream == null)
+                _changeState("Devices_OK");
+            break;
+        case "Local_Filtering":
+            showBusyIcon(false);
+            updateStatus("Camera_Live", "本機濾波演示");
+            enableElem(buttonIds, false);
+            enableElem('btnLocalFilter', true);
+            enableElem('btnPostToCloud', true);
+            break;
+        case "Cloud_Posting":
+            showBusyIcon(true);
+            updateStatus("Posting", "上傳雲端中...");
+            enableElem(buttonIds, false);
+            break;
+        default:
+            break;
+    }
+}
 
 
 function initCamera() {
     // video.setAttribute('autoplay', '');
     // video.setAttribute('muted', '');
     // video.setAttribute('playsinline', '');
-    // video.width = width;
-    // video.height = height;
-    // cap = new cv.VideoCapture(video);
-
-    navigator.mediaDevices.enumerateDevices()
-        .then(gotDevices)
+    enableElem(buttonIds, false);
+    await navigator.mediaDevices.enumerateDevices()
+        .then(_gotDevices)
         .then(function(){
             showBusyIcon(false);
-            updateStatus('devices', 'got!');
-            selectElem.onchange = function() {
-                openCamera();
-            }
+            updateStatus('mediaDevices', 'got!');
+            _initEventHandlers();
+            _changeState("Devices_OK");
         });
 }
 
 
-function gotDevices(mediaDeviceInfos) {
+function _initEventHandlers() {
+    selectElem.onchange = function() {
+        openCamera();
+    }
+    document.getElementById('btnLiveCamera').onclick = function() {
+        openCamera();
+    }
+    document.getElementById('btnLocalFilter').onclick = function() {
+        toggleLocalFiltering();
+    }
+    document.getElementById('btnPostToCloud').onclick = function() {
+        snapshotAndPostToCloud();
+    }
+}
+
+
+function _gotDevices(mediaDeviceInfos) {
     selectElem.innerHTML = '';
     selectElem.appendChild(document.createElement('option'));
     let count = 1;
@@ -58,7 +110,6 @@ function gotDevices(mediaDeviceInfos) {
         if (mediaDevice.kind === 'videoinput') {
             const option = document.createElement('option');
             option.value = mediaDevice.deviceId;
-            // console.log(`deviceId = ${option.value}`);
             const label = mediaDevice.label || `Camera ${count++}`;
             const textNode = document.createTextNode(label);
             option.appendChild(textNode);
@@ -68,14 +119,11 @@ function gotDevices(mediaDeviceInfos) {
 }
 
 
-function stopMediaTracks(stream) {
-    stream.getTracks().forEach(track => {
-      track.stop();
-    });
-}
-
-
 function openCamera() {
+    if(_currentState == "Camera_Live")
+        return;
+
+    _closeCamera();
     const videoConstraints = {};
     if (selectElem.value === '') {
         videoConstraints.facingMode = 'environment';
@@ -86,84 +134,192 @@ function openCamera() {
         video: videoConstraints,
         audio: false
     };
-    console.log(videoConstraints);
+    // console.log(videoConstraints);
 
     navigator.mediaDevices.getUserMedia(constraints)
         .then(function(stream) {
             video.srcObject = stream;
-            // html has autoplay attribute
-            // video.play();    
-            _streaming = true;
-            // const w = video.width;
-            // const h = video.height;
-            // console.log(`video size = ${w}x${h}`); 
-            // adjustBufAndDisplaySize();
-            // startPreview();
-            // updateStatus('camera', `${w}x${h}`);
-            updateStatus('camera', `streaming.`);
-            showBusyIcon(false);
+            _currentStream = stream;
+            _updateCanvasSize(_currentStream);
+            _changeState("Camera_Live");
         })
         .catch(function(err) {
             // console.log("An error occurred! " + err);
-            const errMsg = "openCamera Error: " + err;
+            const errMsg = "openCamera 異常: " + err;
             console.error(errMsg);
             alert(errMsg);
         });
 }
 
 
-function startVideoProcessing() {
-    if (_streaming)
+function _closeCamera() {
+    function _stopMediaTracks(stream) {
+        if(stream) {
+            stream.getTracks().forEach(track => {
+                track.stop();
+            });
+        }
+    }    
+    _filterRunFlag = false;
+    _stopMediaTracks(_currentStream);
+    _currentStream = null;
+    _disposeCvBufs();
+    // 內部調用, 不改變 state
+    //_changeState("Devices_OK");
+}
+
+
+function snapshotAndPostToCloud() {
+    alert("Not implemented yet!")
+}
+
+
+function toggleLocalFiltering() {
+    if(_currentState == "Camera_Live") {
+        startVideoProcessing();
         return;
-    // schedule first one.
-    // _streaming = true;
-    // setTimeout(processVideo, 0);
+    }
+    if (_changeState == "Local_Filtering") {        
+        stopVideoProcessing();
+        return;
+    }
 }
 
 
-function processVideo() {
-    // try {
-    //     if (!_streaming) {
-    //         // clean and stop.
-    //         src.delete();
-    //         dst.delete();
-    //         return;
-    //     }
-    //     // TIMER: timestamp
-    //     let begin = Date.now();
-    //     // get image frame via cv.VideoCapture
-    //     cap.read(src);
-    //     // or get image via context
-    //     // context.drawImage(video, 0, 0, width, height);
-    //     // src.data.set(context.getImageData(0, 0, width, height).data);
-    //     // image processing
-    //     cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
-    //     // render to canvas
-    //     cv.imshow(canvasDispId, dst);
-    //     // TIMER: schedule the next one.
-    //     let delay = 1000/FPS - (Date.now() - begin);
-    //     setTimeout(processVideo, delay);
-    // } catch (err) {
-    //     // utils.printError(err);
-    //     console.error(err);
-    // }
+function startVideoProcessing() {
+    if(!_currentStream)
+        return;
+    if(_filterRunFlag)
+        return;
+    try {    
+        _prepareCvCaptureBufs(_width, _height, _currentStream);
+        // hide video and show canvas
+        video.style.display = 'none';
+        document.getElementById(canvasDispId).style.display = 'block';
+        // change state
+        _filterRunFlag = true;
+        _changeState("Local_Filtering");
+        // schedule first one.
+        setTimeout(_processVideo, 0);
+    } catch(err) {
+        const errMsg = "啟動本機濾波 異常: " + err;
+        console.error(errMsg);
+        alert(errMsg);
+    }
 }
 
 
-
-function adjustBufAndDisplaySize() {
-    // let dispElem = document.getElementById(canvasDispId);
-    // width = video.width;
-    // height = video.height;
-    // dispElem.style.width = width + "px";
-    // dispElem.style.height = height + "px";
-    // // dispElem.style.border = 'solid';
-    // // dispElem.style.borderWidth = "1px";
-    // if (src)
-    //     delete src;
-    // if (dst)
-    //     delete dst;
-    // src = new cv.Mat(height, width, cv.CV_8UC4);
-    // dst = new cv.Mat(height, width, cv.CV_8UC1);
+function stopVideoProcessing() {
+    // flag
+    _filterRunFlag = false;
+    // show video and hide canvas
+    document.getElementById(canvasDispId).style.display = 'none';
+    video.style.display = 'block';
 }
+
+
+function _processVideo() {
+    try {
+        if (!_filterRunFlag) {
+            _changeState("Camera_Live");
+            return;
+        }
+        // TIMER: timestamp
+        let begin = Date.now();
+        // get image frame via cv.VideoCapture
+        cap.read(src);
+        // or get image via context
+        dst = _applyLocalFilter(src);
+        // render to canvas
+        cv.imshow(canvasDispId, dst);
+        // TIMER: schedule the next one.
+        let delay = 1000/FPS - (Date.now() - begin);
+        setTimeout(processVideo, delay);
+    } catch (err) {
+        const errMsg = "_processVideo 異常: " + err;
+        console.error(errMsg);
+        updateStatus(_currentState, "影像異常!");
+    }
+}
+
+
+function _disposeCvBufs(){
+    try {
+        if(_src) {
+            delete _src;
+            _src = null;
+        }
+        if(_dst) {
+            delete _dst;
+            _dst = null;
+        }
+        if(_cap) {
+            _cap.release();
+            delete _cap;
+            _cap = null;
+        }
+        return true;
+    } catch (err) {
+        const errMsg = "disposeCvBufs 異常: " + err;
+        console.error(errMsg);
+        alert(errMsg);
+        return false;
+    }
+}
+
+
+function _prepareCvCaptureBufs(width, height, stream) {
+    if (!_disposeCvBufs())
+        return;
+    _src = new cv.Mat(height, width, cv.CV_8UC4);
+    _dst = new cv.Mat(height, width, cv.CV_8UC1);
+    _cap = new cv.VideoCapture(video);    
+}
+
+
+function _applyLocalFilter(src){
+    // DEMO
+    cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY);
+    // MorphologyEx
+    let kernelM = cv.Mat.ones(5, 5, cv.CV_8U);
+    cv.morphologyEx(src, dst, cv.MORPH_GRADIENT, kernelM);
+    kernelM.delete();
+    cv.bitwise_not(dst, dst);
+    return dst;
+}
+
+
+function _updateCanvasSize(steam) {
+    const settings = stream.getVideoTracks()[0].getSettings();
+    _width = settings.width;
+    _height = settings.height;
+    const canvasDisplay = document.getElementById(canvasDispId);
+    const elems = [canvasFrame, canvasDisplay];
+    for (let elem of elems) {
+        elem.style.width = _width + "px";
+        elem.style.height = _height + "px";
+    }
+    _updateAnchorBoxesPos(_width, _height);
+}
+
+
+function _updateAnchorBoxesPos(cWidth, cHeight) {
+    const anchor1 = document.getElementById("anchorBox-1");
+    const anchor2 = document.getElementById("anchorBox-2");
+    //anchor1.style.position;
+}
+
+
+function _showAnchorBoxes(show) {
+    const anchor1 = document.getElementById("anchorBox-1");
+    const anchor2 = document.getElementById("anchorBox-2");
+    if(show) {
+        anchor1.style.visibility = 'visible';
+        anchor2.style.visibility = 'visible';
+    } else {
+        anchor1.style.visibility = 'hidden';
+        anchor2.style.visibility = 'hidden';
+    }
+}
+
 

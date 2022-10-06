@@ -34,11 +34,11 @@
       </h1>
     </header>
 
-    <section id="section-1" class="w3-container w3-dimgray">
-      <!-- 下拉式選單 -->
-      <select id="availableCameras">
-        <option></option>
-      </select>
+    <section id="section-1" class="w3-container w3-center w3-dimgray">
+      <select id="availableCameras"></select>
+      <button id="btnLiveCamera">即時影像</button>
+      <button id="btnLoadFilter">本機濾波</button>
+      <button id="btnPostToCloud">雲端處理</button>
     </section>
 
     <section id="section-2" class="w3-container">
@@ -46,6 +46,8 @@
       <video id="videoInput" autoplay playsinline></video>
       <canvas id="canvasFrame" style="display: none;"> </canvas>
       <canvas id="canvasDisplay" style="display: none;"> </canvas>
+      <div id="anchorBox-1"></div>
+      <div id="anchorBox-2"></div>  
     </section>
 
     <section id="section-3" class="w3-container w3-dimgray">

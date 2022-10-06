@@ -91,6 +91,20 @@ function updateStatus(moduleName, msg) {
 }
 
 
+function enableElem(ids, enabled) {
+    if (Array.isArray(ids))
+        ids.forEach((v,i,a) => { enableElem(v, enabled); });
+    const elem = document.getElementById(ids);
+    if (elem) {
+        if(enabled) {
+            elem.removeAttribute('disabled');
+        } else  {
+            elem.setAttribute('disabled', true);
+        }
+    }
+}
+
+
 function _TRACE(moduleName, msg) {
     if (!moduleName)
         moduleName = "EzImageUtils";
