@@ -486,8 +486,12 @@ function _updateAnchorBoxesPos() {
     
     //console.log(`video offsetWidth=${pw} offsetHeight=${ph}`);
     _TRACE_IPHONE(`video offsetWidth=${pw} offsetHeight=${ph}`);
-    // canvasDisp.style.height = ph + "px";
-    // document.getElementById("section-2").style.height = (ph+50) + "px";
+    
+    //----------------------------------------------------------
+    // iphone 必須在此調整 
+    // canvasDisp.style.height
+    //----------------------------------------------------------
+    canvasDisp.style.height = ph + "px";
 
     // coordinates in video frame.
     let aw = parseInt(Math.min(_width, _height) * 0.1);
