@@ -14,6 +14,7 @@
 //          media.getusermedia.insecure.enabled
 //
 
+const FRONT_ENV_VERSION = "2.0.0";
 const OPT_SIM = false;
 
 const FPS = 30;
@@ -561,8 +562,9 @@ function _TRACE_IPHONE(msg) {
     }
     else {
         if(msg === "RESET-LOG")
-            document.getElementById("section-3").innerHTML = '';
-        document.getElementById("section-3").innerHTML += (`<p>${msg}</p>`);
+            document.getElementById("section-3").innerHTML = `<p>frontend ver: ${FRONT_ENV_VERSION}</p>`;
+        else
+            document.getElementById("section-3").innerHTML += (`<p>${msg}</p>`);
     }
 }
 
