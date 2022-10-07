@@ -123,11 +123,18 @@ function _selectDefaultCamera() {
         openCamera();
         return;
     }    
+    return;
+    
     // select default camera
     try {
-        const c = selectElem.length - 1;
-        if(c >= 0) {
-            selectElem.selectedIndex = c;
+        // const c = selectElem.length - 1;
+        // if(c >= 0) {
+        //     selectElem.selectedIndex = c;
+        //     openCamera();
+        // }
+        const c = selectElem.lastChild;
+        if (c) {
+            selectElem.value = c.value;
             openCamera();
         }
     } catch(err) {
@@ -191,11 +198,11 @@ function openCamera() {
         _showVideoOrCanvas(video);
         video.play();
     })
-    .then(function() {
-        // 再抓一次.
-        return navigator.mediaDevices.enumerateDevices();
-    })
-    .then(_gotDevices)
+    // .then(function() {
+    //     // 再抓一次.
+    //     return navigator.mediaDevices.enumerateDevices();
+    // })
+    // .then(_gotDevices)
     .catch(function(err) {
         // console.log("An error occurred! " + err);
         const errMsg = "openCamera 異常: " + err;
@@ -475,8 +482,8 @@ function _updateAnchorBoxesPos() {
     const ph = owner.offsetHeight;
     
     console.log(`video offsetWidth=${pw} offsetHeight=${ph}`);
-    // const tgt = document.getElementById("ez-log");
-    // tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
+    const tgt = document.getElementById("ez-log");
+    tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
     // canvasDisp.style.height = ph + "px";
     // document.getElementById("section-2").style.height = (ph+50) + "px";
 
