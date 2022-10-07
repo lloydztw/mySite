@@ -31,7 +31,6 @@ let _width = 640*2;
 let _height = 480*2;
 let _vidCap = null;             //new cv.VideoCapture(video);
 let _vidSrc32 = null;           //new cv.Mat(height, width, cv.CV_8UC4);
-let _dst8;
 let _filter = {
     applyFilter : function(src)  { return src; },
     dispose : function() {}
