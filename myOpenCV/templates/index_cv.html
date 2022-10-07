@@ -34,36 +34,42 @@
       </h1>
     </header>
 
-    <section id="section-1" class="w3-container w3-center w3-dimgray">
+    <section id="section-1" class="w3-container w3-dimgray">
       <div class="w3-row">
-        <div class="w3-col s4">
-          <select id="availableCameras"></select>
+        <div class="w3-col s2">相機</div>
+        <div class="w3-col s8">
+          <select id="availableCameras">
+            <option>camera 1</option>
+            <option>camera 2</option>
+            <option>camera 3</option>
+            <option>camera 4</option>
+          </select>
         </div>
       </div>
       <div class="w3-row">
-        <div class="w3-col s4">
+        <div class="w3-col s2"> 操作</div>
+        <div class="w3-col s8">
         <button id="btnLiveCamera">即時影像</button>
-        </div>
-        <div class="w3-col s4">
+        <!-- </div>
+        <div class="w3-col s4"> -->
         <button id="btnLocalFilter">本機濾波</button>
-        </div>
-        <div class="w3-col s4">
+        <!-- </div>
+        <div class="w3-col s4"> -->
         <button id="btnPostToCloud">雲端處理</button>
         </div>
       </div>
     </section>
 
-    <section id="section-2">
-        <!-- <div class="displayZoneOutter"> -->
-        <!-- <video id="videoInput" autoplay playsinline></video> -->
-        <video id="videoInput" class="displayZone" autoplay playsinline></video>
-        <canvas id="canvasDisp"  class="displayZone" style="visibility: visible;"> </canvas>
-        <div id="anchorBox-1" class="displayZone" style="visibility: hidden;"></div>
-        <div id="anchorBox-2" class="displayZone" style="visibility: hidden;"></div>  
-        <div id="bigWaitIcon" class="w3-center", style="visibility: hidden;">
-          <span><i class="fa fa-spinner w3-spin" style="font-size:72px; color:#ff33cc;"></i></span>
+    <section id="section-2" class = "ez-dummy">
+        <div class="ez-overlap-container">
+          <video id="videoInput" class="ez-overlap" autoplay playsinline></video>
+          <canvas id="canvasDisp"  class="ez-overlap" style="visibility: visible;"> </canvas>
+          <div id="anchorBox-1" class="ez-overlap" style="visibility: hidden;"></div>
+          <div id="anchorBox-2" class="ez-overlap" style="visibility: hidden;"></div>  
+          <div id="bigWaitIcon" class="ez-dummy", style="visibility: hidden;">
+            <span><i class="fa fa-spinner w3-spin" style="font-size:72px; color:#ff33cc;"></i></span>
+          </div>
         </div>
-        <!-- </div> -->
     </section>
 
     <section id="section-3" class="w3-container w3-dimgray">
@@ -86,10 +92,6 @@
     }
     function onCvReady() {
       updateStatus('opencv','is ready.');
-      // initAvailableCameras('select#availableCameras');
-      // updateStatus('WebRTC','is ready.');
-      // showBusyIcon(false);
-      // autoAdjustElemsWidth();
       autoAdjustElemsWidth();
       initCamera();
     }

@@ -14,7 +14,7 @@
 //          media.getusermedia.insecure.enabled
 //
 
-const OPT_SIM = false;
+const OPT_SIM = true;
 
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
@@ -457,14 +457,16 @@ function _adjustCanvasGuiSize(videoElem) {
 }
 
 
-function _updateAnchorBoxesPos() {
+function _updateAnchorBoxesPos() {    
     const anchor1 = document.getElementById("anchorBox-1");
-    const anchor2 = document.getElementById("anchorBox-2");    
-    // zIndex
-    video.style.zIndex = 1;
-    canvasDisp.style.zIndex = 9;
-    anchor1.style.zIndex = 19;
-    anchor2.style.zIndex = 19;
+    const anchor2 = document.getElementById("anchorBox-2");
+
+    // zIndex (由 css 控制)
+    // video.style.zIndex = 1;
+    // canvasDisp.style.zIndex = 2;
+    // anchor1.style.zIndex = 3;
+    // anchor2.style.zIndex = 3;
+
     // anchors
     const owner = video;
     const px = owner.offsetLeft;
@@ -475,7 +477,7 @@ function _updateAnchorBoxesPos() {
     console.log(`video offsetWidth=${pw} offsetHeight=${ph}`);
     // const tgt = document.getElementById("ez-log");
     // tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
-    canvasDisp.style.height = ph + "px";
+    // canvasDisp.style.height = ph + "px";
     // document.getElementById("section-2").style.height = (ph+50) + "px";
 
     // coordinates in video frame.
@@ -507,17 +509,17 @@ function _updateAnchorBoxesPos() {
     //
     _showAnchorBoxes(true);
 
-    // bigWaitIcon
-    const bi = document.getElementById("bigWaitIcon");
-    if(bi) {
-        bi.style.position = "absolute";
-        bi.style.zIndex = 29;
-        const bw = bi.offsetWidth;
-        const bx = (pw - bw) / 2;
-        const by = (ay + ay2 - bw) / 2;
-        bi.style.left = bx + "px";
-        bi.style.top = by + "px";       
-    }
+    // bigWaitIcon (改由 css 控制)
+    // const bi = document.getElementById("bigWaitIcon");
+    // if(bi) {
+    //     bi.style.position = "absolute";
+    //     bi.style.zIndex = 29;
+    //     const bw = bi.offsetWidth;
+    //     const bx = (pw - bw) / 2;
+    //     const by = (ay + ay2 - bw) / 2;
+    //     bi.style.left = bx + "px";
+    //     bi.style.top = by + "px";       
+    // }
 }
 
 
@@ -537,13 +539,3 @@ function _showVideoOrCanvas(target) {
     }
 }
 
-
-// function showElem(id, visible, display = null) {
-//     const elem = document.getElementById(id);
-//     if(elem) {
-//         elem.style.visibility = visible ? "visible" : "hidden";
-//         if(display != null) {
-//             elem.style.display = display;
-//         }
-//     }
-// }
