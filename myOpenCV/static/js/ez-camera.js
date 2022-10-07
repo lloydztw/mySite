@@ -66,13 +66,13 @@ function _changeState(state) {
             break;
         case "Cloud_Posting":
             showBusyIcon(true);
-            updateStatus("Posting", "上傳雲端中...");
+            updateStatus("Posting", "深度運算中...");
             enableElem(buttonIds, false);
             // enableElem("btnLiveCamera", true);
             break;
         case "Cloud_Result":
             showBusyIcon(false);
-            updateStatus("Result", "雲端已回傳結果.");
+            updateStatus("Result", "已傳回深度運算結果.");
             enableElem("btnLiveCamera", true);
             break;
         default:
