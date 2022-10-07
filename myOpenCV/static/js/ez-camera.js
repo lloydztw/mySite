@@ -14,7 +14,7 @@
 //          media.getusermedia.insecure.enabled
 //
 
-const OPT_SIM = true;
+const OPT_SIM = false;
 
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
