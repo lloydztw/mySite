@@ -23,6 +23,7 @@ const canvasDisp = document.getElementById("canvasDisp");
 const canvasDispId = "canvasDisp";
 const buttonIds = ["availableCameras", "btnLiveCamera", "btnLocalFilter", "btnPostToCloud"];
 
+let _optTraceIPhoneEnabled = false;
 let _currentState = 'unknown';
 let _currentStream = null;         
 let _filterRunFlag = false;
@@ -110,10 +111,13 @@ function _initEventHandlers() {
     document.getElementById('btnPostToCloud').onclick = function() {
         snapshotAndPostToCloud();
     }
-
     video.onloadeddata = function() {
         // alert("video.onloaddata");
         _adjustCanvasGuiSize(video);
+    }
+    document.getElementById("header-0").ondblclick = function() {
+        _optTraceIPhoneEnabled = !_optTraceIPhoneEnabled;
+        _TRACE_IPHONE("RESET-LOG");
     }
 }
 
@@ -124,7 +128,7 @@ function _selectDefaultCamera() {
         return;
     }    
     return;
-    
+
     // select default camera
     try {
         // const c = selectElem.length - 1;
@@ -481,9 +485,8 @@ function _updateAnchorBoxesPos() {
     const pw = owner.offsetWidth;
     const ph = owner.offsetHeight;
     
-    console.log(`video offsetWidth=${pw} offsetHeight=${ph}`);
-    const tgt = document.getElementById("ez-log");
-    tgt.innerHTML += (`<p>video offsetWidth=${pw} offsetHeight=${ph}</p>`);
+    //console.log(`video offsetWidth=${pw} offsetHeight=${ph}`);
+    _TRACE_IPHONE(`video offsetWidth=${pw} offsetHeight=${ph}`);
     // canvasDisp.style.height = ph + "px";
     // document.getElementById("section-2").style.height = (ph+50) + "px";
 
@@ -543,6 +546,20 @@ function _showVideoOrCanvas(target) {
     } else {
         // video.style.display = 'none';
         canvasDisp.style.display = 'block';
+    }
+}
+
+
+function _TRACE_IPHONE(msg) {
+    console.log(msg);
+    if(!_optTraceIPhoneEnabled) {
+        if(msg === "RESET-LOG")
+            document.getElementById("section-3").innerHTML = '';
+    }
+    else {
+        if(msg === "RESET-LOG")
+            document.getElementById("section-3").innerHTML = '';
+        document.getElementById("section-3").innerHTML += (`<p>${msg}</p>`);
     }
 }
 
