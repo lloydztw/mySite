@@ -14,7 +14,7 @@
 //          media.getusermedia.insecure.enabled
 //
 
-const FRONT_ENV_VERSION = "2.0.0";
+const FRONT_ENV_VERSION = "2.0.1";
 const OPT_SIM = false;
 
 const FPS = 30;
@@ -127,7 +127,7 @@ function _selectDefaultCamera() {
         openCamera();
         return;
     }    
-    return;
+    // return;
 
     // select default camera
     try {
@@ -148,7 +148,7 @@ function _selectDefaultCamera() {
 
 function _gotDevices(mediaDeviceInfos) {
     selectElem.innerHTML = '';
-    selectElem.appendChild(document.createElement('option'));
+    // selectElem.appendChild(document.createElement('option'));
     let count = 1;
     mediaDeviceInfos.forEach(mediaDevice => {
         if (mediaDevice.kind === 'videoinput') {
