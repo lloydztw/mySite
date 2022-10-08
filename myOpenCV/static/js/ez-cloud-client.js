@@ -6,7 +6,7 @@ Module         : ez-post.js
 */
 
 // 使用 cors-anywhere proxy 暫時避掉 CORS 的問題.
-const CorsURL = 'https://cors-anywhere.herokuapp.com/';
+const CorsURL = ''  //'https://cors-anywhere.herokuapp.com/';
 const ServerURL = CorsURL + 'https://fathomless-castle-45995.herokuapp.com';
 // const ServerURL2 = 'http://127.0.0.1:8000';
 

@@ -22,8 +22,8 @@ Module         : ez-camera.js
 //
 
 const FRONT_ENV_VERSION = "2.0.2";
-const OPT_SIM_CAMERA = false;
-const OPT_SIM_CLOUD = true;
+const OPT_SIM_CLOUD = false;
+let OPT_SIM_CAMERA = false;
 
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
@@ -130,19 +130,15 @@ function _initEventHandlers() {
 
 
 function _selectDefaultCamera() {
-    if (OPT_SIM_CAMERA) {
-        openCamera();
-        return;
-    }    
-    // return;
-
     // select default camera
     try {
-        // const c = selectElem.length - 1;
-        // if(c >= 0) {
-        //     selectElem.selectedIndex = c;
-        //     openCamera();
-        // }
+        if(selectElem.length == 0) {
+            alert('找不到相機, 嘗試模擬相機模式.');
+            OPT_SIM_CAMERA = true;
+            openCamera();
+            return;
+        }
+
         const c = selectElem.lastChild;
         if (c) {
             selectElem.value = c.value;
@@ -232,7 +228,7 @@ function _openCamera_sim() {
         _height = 240;
         video.width = _width;
         video.height = _height;
-        video.innerHTML = `<source src="../static/img/_tmp_movie.mp4" type="video/mp4">`
+        video.innerHTML = `<source src="../static/img/tmp_movie.mp4" type="video/mp4">`
         _currentStream = "sim";
         _adjustCanvasGuiSize(video);
         _changeState("Camera_Live");
