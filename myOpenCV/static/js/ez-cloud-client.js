@@ -27,7 +27,7 @@ const EzCloud = {
         })
         .catch((err) => {
             console.error(err);
-            alert(err);
+            // alert(err);
             showBusyIcon(false);
             updateStatus("get/version", "failed.");
         });    
