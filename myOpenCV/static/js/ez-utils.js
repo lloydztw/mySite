@@ -1,3 +1,9 @@
+/*
+Module         : ez-utils.js
+@Author        : LeTian Chang
+@Email         : lloydz.tw@gmail.com
+@Creation      : 2022/10/05
+*/
 
 
 
@@ -123,6 +129,18 @@ function showElem(ids, visible, display = null) {
 }
 
 
+function dumpUrlToFile(newUrl, filename, autoDelete=true) {
+    const link = document.createElement('a');
+    link.href = newUrl;
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    link.parentNode.removeChild(link);
+    if(autoDelete)
+        URL.revokeObjectURL(newUrl);
+}
+
+
 function _TRACE(moduleName, msg) {
     if (!moduleName)
         moduleName = "EzImageUtils";
@@ -130,12 +148,3 @@ function _TRACE(moduleName, msg) {
 }
 
 
-function _dump_url_to_file(newUrl, filename) {
-    const link = document.createElement('a');
-    link.href = newUrl;
-    link.setAttribute('download', filename);
-    document.body.appendChild(link);
-    link.click();
-    link.parentNode.removeChild(link);
-    URL.revokeObjectURL(newUrl);
-}

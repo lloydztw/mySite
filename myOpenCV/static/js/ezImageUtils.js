@@ -117,72 +117,19 @@ function processImageLocally(srcImageId, outCanvasId) {
 }
 
 
-async function submit_upload_request_to_server_000(ev) {
-    //Step 0 : 從 html Form 取得 formData
-    // NOTE: ev.target 會指向 the form (getElementById('fileForm-id'))
-    ev.preventDefault();
-    const formData = new FormData(ev.target);
-    //Step 1 : 準備 url 與 options 參數
-    const url = "/upload_file";
-    const options = {
-        method: "POST",
-        // 【注意】請不要指定 headers 內容, 讓 JS 自動根據 formData 填入 headers !!!
-        // headers: {
-        // },
-        body: formData, // string, FormData, Blob, BufferSource, or URLSearchParams
-    };
-    //Step 2 : fetch
-    let response = await fetch(url, options);
-    if (!response.ok) {
-        //Step 3 : 異常
-        const err = `status=${response.status} (${response.statusText})`;
-        console.error(err);
-        alert(err);
-        showBusyIcon(false);
-        updateStatus("EzImageUtils", "is ready.");
-        return;
-    } else {
-        //Step 4.1 : get total length
-        let contentLength = response.headers.get('Content-Length');
-        console.log('[Content-Length] =' + contentLength);
-        let receivedLength = 0; // received that many bytes at the moment
-        let chunks = []; // array of received binary chunks (comprises the body)
-        //Step 4.2 : await reader.read()
-        // 參考 https://developer.mozilla.org/en-US/docs/Web/API/FileReader 
-        const reader = response.body.getReader();
-        while(true) {
-            const {done, value} = await reader.read();
-            if(done)
-                break;
-            chunks.push(value);
-            receivedLength += value.length;
-            // console.log(`Received ${receivedLength} of ${contentLength}`);
-        }
-        //Step 4.3 : 組合 chunksAll
-        let chunksAll = new Uint8Array(receivedLength);
-        let position = 0;
-        for(let chunk of chunks) {
-            chunksAll.set(chunk, position);
-            position += chunk.length;
-        }
-        //Step 4.4 : decode into jpg and to the <img> Elem
-        outImageElem.src = "data:image/png;base64," 
-            + btoa(String.fromCharCode.apply(null, chunksAll));
-        displayOne(outImageElem);
-        //Step 4.5 : update status
-        showBusyIcon(false);
-        updateStatus("EzImageUtils", "已收到雲端回傳結果.");
-    }
-}
-
-
 async function submit_upload_request_to_server(ev) {
     //Step 0 : 從 html Form 取得 formData
     // NOTE: ev.target 會指向 the form (getElementById('fileForm-id'))
     ev.preventDefault();
-    const formData = new FormData(ev.target);
+    // const formData = new FormData(ev.target);
+    const formData = new FormData();
+    formData.append('file', srcFileInputElem.files[0]);
+    
     //Step 1 : 準備 url 與 options 參數
-    const url = "/upload_file";
+    const corsURL = 'https://cors-anywhere.herokuapp.com/';
+    const url = corsURL + "https://fathomless-castle-45995.herokuapp.com/upload_file";
+    // const url = "/upload_file";
+
     const options = {
         method: "POST",
         // 【注意】請不要指定 headers 內容, 讓 JS 自動根據 formData 填入 headers !!!

@@ -1,3 +1,10 @@
+/*
+Module         : ez-camera.js
+@Author        : LeTian Chang
+@Email         : lloydz.tw@gmail.com
+@Creation      : 2022/10/05
+*/
+
 // 參考
 // WebRTC 
 //  https://webrtc.org/getting-started/media-devices
@@ -14,14 +21,14 @@
 //          media.getusermedia.insecure.enabled
 //
 
-const FRONT_ENV_VERSION = "2.0.1";
-const OPT_SIM = false;
+const FRONT_ENV_VERSION = "2.0.2";
+const OPT_SIM_CAMERA = false;
+const OPT_SIM_CLOUD = true;
 
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
 const video = document.getElementById("videoInput");
 const canvasDisp = document.getElementById("canvasDisp");
-const canvasDispId = "canvasDisp";
 const buttonIds = ["availableCameras", "btnLiveCamera", "btnLocalFilter", "btnPostToCloud"];
 
 let _optTraceIPhoneEnabled = false;
@@ -123,7 +130,7 @@ function _initEventHandlers() {
 
 
 function _selectDefaultCamera() {
-    if(OPT_SIM) {
+    if (OPT_SIM_CAMERA) {
         openCamera();
         return;
     }    
@@ -164,7 +171,7 @@ function _gotDevices(mediaDeviceInfos) {
 
 
 function openCamera() {
-    if (OPT_SIM) {
+    if (OPT_SIM_CAMERA) {
         _openCamera_sim();
         return;
     }
@@ -259,15 +266,26 @@ function _closeCamera() {
 
 
 function snapshotAndPostToCloud() {
-    const img = _snapshot();
-    if(img) {
+    //----------------------------------------------------------------------
+    // 【note】
+    //     canvas only support 8-bit RGBA image with continuous storage, 
+    //      the cv.Mat type is cv.CV_8UC4. 
+    //      It is different from native OpenCV 
+    //      because images returned and shown by 
+    //      the native imread and imshow have 
+    //      the channels stored in BGR order.
+    //----------------------------------------------------------------------
+    // img32 is the reference to _vid32 buffer
+    // do NOT delete it !
+    const img32 = _snapshot();
+    if(img32) {
         _changeState("Cloud_Posting");
         _filterRunFlag = false;
-        cv.imshow(canvasDispId, img);
-        _showVideoOrCanvas(canvasDispId);
-        _postImageToCloud(img);
+        cv.imshow(canvasDisp, img32);
+        _showVideoOrCanvas(canvasDisp);
+        _postImageToCloud(canvasDisp);
     } else {
-        // _changeState("Camera_Live");
+        //> _changeState("Camera_Live");
         openCamera();
     }
 }
@@ -302,18 +320,38 @@ function _snapshot() {
 }
 
 
-function _postImageToCloud(img) {
-    function _simCloud() {
-        if(_vidSrc32) {
-            let dst = _filter.applyFilter(_vidSrc32);
-            cv.bitwise_not(dst, dst);
-            cv.imshow(canvasDispId, dst);
-            _showVideoOrCanvas(canvasDispId);
-            _showAnchorBoxes(false);
-        }
-        _changeState("Cloud_Result");
+function _postImageToCloud(src) {
+    if (OPT_SIM_CLOUD) {
+        setTimeout( function(){
+                if(_vidSrc32) {
+                    let dst = _filter.applyFilter(_vidSrc32);
+                    cv.bitwise_not(dst, dst);
+                    cv.imshow(canvasDisp, dst);
+                    _showVideoOrCanvas(canvasDisp);
+                    _showAnchorBoxes(false);
+                }
+                _changeState("Cloud_Result");
+            }, 
+            3000
+        );
+        return;
     }
-    setTimeout(_simCloud, 3000);
+
+    // ToDo: how can I tell whether src is type of HTMLCanvasElement
+    // console.log(typeof src);
+    if(src === canvasDisp) {
+        EzCloud.postCanvasThenRender(canvasDisp, canvasDisp, 
+            function() {
+                _showVideoOrCanvas(canvasDisp);
+                _showAnchorBoxes(false);
+                _changeState("Cloud_Result");
+            }
+        );
+    } else {
+        const errMsg = "_postImageToCloud err: the src must be canvas!";
+        console.error(errMsg);
+        alert(errMsg);
+    }
 }
 
 
@@ -339,7 +377,7 @@ function startLocalFiltering() {
         // hide video and show canvas
         // video.style.display = 'none';
         // document.getElementById(canvasDispId).style.display = 'block';
-        _showVideoOrCanvas(canvasDispId);
+        _showVideoOrCanvas(canvasDisp);
         // change state
         _filterRunFlag = true;
         _changeState("Local_Filtering");
@@ -374,12 +412,12 @@ function _processVideo() {
         let begin = Date.now();
         // get image frame via cv.VideoCapture
         _vidCap.read(_vidSrc32);
-        // or get image via context
+        // filter
         const img = _filter != null ? 
             _filter.applyFilter(_vidSrc32) : 
             _vidSrc32;
-        // render to canvas
-        cv.imshow(canvasDispId, img);
+        // Render to canvas
+        cv.imshow(canvasDisp, img);
         // TIMER: schedule the next one.
         let delay = 1000/FPS - (Date.now() - begin);
         setTimeout(_processVideo, delay);

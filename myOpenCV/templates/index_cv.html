@@ -40,6 +40,9 @@
       <button id="btnLiveCamera">即時影像</button>
       <button id="btnLocalFilter">本機濾波</button>
       <button id="btnPostToCloud">深度運算</button>
+      <!-- 
+      <br><input id="_testFI_" type="file" onchange="EzCloud._testPostViaFileInput('_testFI_');" /> 
+      -->
     </section>
 
     <section id="section-2" class = "ez-dummy">
@@ -65,9 +68,10 @@
   <!-- </div> -->
 
   <script src="../static/js/ez-utils.js" type="text/javascript"></script>
+  <script src="../static/js/ez-cloud-client.js" type="text/javascript"></script>
   <script src="../static/js/ez-camera.js" type="text/javascript"></script>
   <script type="text/javascript">
-    showBusyIcon(true);
+    showBusyIcon(true);    
     function onCvLoad() {
       updateStatus('opencv','is loaded (sync).');
       cv.onRuntimeInitialized = onCvReady;
