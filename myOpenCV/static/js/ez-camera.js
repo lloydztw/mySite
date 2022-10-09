@@ -22,8 +22,8 @@ Module         : ez-camera.js
 //
 
 const FRONT_ENV_VERSION = "2.0.2";
-const OPT_SIM_CLOUD = false;
 let OPT_SIM_CAMERA = false;
+let OPT_SIM_CLOUD = true;
 
 const FPS = 30;
 const selectElem = document.getElementById('availableCameras');
